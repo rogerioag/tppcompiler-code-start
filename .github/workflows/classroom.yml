@@ -1,0 +1,19 @@
+name: GitHub Classroom Workflow
+
+on: [push]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: education/autograding@v1
