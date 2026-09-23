@@ -14,7 +14,6 @@ class MyError():
         'GlobalErrorMessages.properties',
         'tpplexer/LexerErrorMessages.properties',
         'tppparser/ParserErrorMessages.properties',
-        'tppparser/ParserMessages.properties',
         'tppsema/SemaErrorMessages.properties',
         'tppcodegen/CodeGenErrorMessages.properties'
     ]
