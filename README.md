@@ -6,17 +6,42 @@ Repositório Template para o projeto de desenvolvimento do compilador para a lin
 
 ```
 tppcompiler-code-start/
-├── .github/workflows/       # Workflows do GitHub Actions
-├── src/
-│   ├── tpp_compiler.py      # Script principal da CLI
-│   ├── tpplexer/            # Módulos de análise léxica
-│   │   ├── base.py          # Classe base abstrata
-│   │   ├── ply_lexer.py     # Implementação com PLY
-│   ├── tppparser/           # Módulos de análise sintática.
-│   ├── tppsema/             # Lógica de análise semântica.
-│   └── tppcodegen/          # Geração de código.
-├── tests/                   # Suíte de testes
-└── requirements.txt         # Dependências do projeto
+├── .github/workflows/                      # Workflows do GitHub Actions (CI)
+├── docs/                                   # Especificações das fases do compilador
+│   ├── LEX-SPECS.md                        # Especificação léxica
+│   ├── SYN-SPECS.md                        # Especificação sintática
+│   ├── SEM-SPECS.md                        # Especificação semântica
+│   └── CODEGEN-SPECS.md                    # Especificação de geração de código
+├── src/                                    # Código-fonte do compilador
+│   ├── tpp_compiler.py                     # Script principal da CLI
+│   ├── myerror.py                          # Gerenciador de erros e mensagens
+│   ├── GlobalErrorMessages.properties      # Mensagens de erro globais
+│   ├── tpplexer/                           # Módulos e estratégias de análise léxica
+│   │   ├── __init__.py                     # Factory get_lexer e exportações
+│   │   ├── base.py                         # Classe base abstrata (BaseLexer) e Token
+│   │   ├── LogErrorLexer.py                # Tratamento e formatação de erros léxicos
+│   │   ├── LexerErrorMessages.properties   # Mensagens de erro léxicas
+│   │   ├── ply_lexer/                      # Estratégia PLY (tokens, regexs, methods, ply_lexer)
+│   │   ├── mandfa_lexer/                   # Estratégia DFA manual procedural
+│   │   ├── symtable_lexer/                 # Estratégias com Tabela de Símbolos
+│   │   │   ├── symtable_lexer.py           # Versão pura dirigida a tabela (Table-Driven)
+│   │   │   └── symtableman_lexer.py        # Versão híbrida com herança de ManualDFALexer
+│   │   └── automatalib_lexer/              # Estratégias com automata-lib
+│   │       ├── automatalib_lexer.py        # Versão pura com AFDs formais e Maximal Munch
+│   │       └── automatalibman_lexer.py     # Versão híbrida com herança de ManualDFALexer
+│   ├── tppparser/                          # Módulos de análise sintática
+│   │   └── ParserMessages.properties       # Mensagens de erro sintáticas
+│   ├── tppsema/                            # Análise semântica (em desenvolvimento)
+│   │   └── SemaErrorMessages.properties    # Mensagens de erro semânticos
+│   └── tppcodegen/                         # Geração de código (em desenvolvimento)
+│   │   └── CodeGenErrorMessages.properties # Mensagens de erro Geração de Código
+├── tests/                                  # Suíte de testes e benchmarks
+│   ├── conftest.py                         # Configuração e hook --lexer do Pytest
+│   ├── tpplex_test.py                      # Testes funcionais da fase léxica (42 testes)
+│   ├── test_perf_large_tokens.py           # Testes de performance e integridade léxica
+│   ├── benchmark_lexers.py                 # Script CLI de benchmark e profiling comparativo
+│   └── lex-tests/                          # Casos de teste (.tpp) e saídas de referência (.lex.out)
+└── requirements.txt                        # Dependências do projeto
 ```
 
 ## Instalação dos Requisitos
