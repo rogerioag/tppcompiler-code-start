@@ -41,12 +41,12 @@ class ArgumentParser(argparse.ArgumentParser):
 
 
 def main():
-    cli = ArgumentParser(description="Compilador TPP Modular")
+    cli = ArgumentParser(description="Compilador TPP [tppc]")
     cli.add_argument("fonte", help="arquivo-fonte .tpp")
-    cli.add_argument("--lexer", choices=["ply", "manual", "symtable"], default="ply", help="Estratégia Léxica")
+    cli.add_argument("--lexer", choices=["ply", "mandfa", "symtable", "symtableman", "automatalib", "automatalibman"], default="ply", help="Estratégia Léxica")
     cli.add_argument("--parser", choices=["yacc", "topdown"], default="yacc", help="Estratégia Sintática")
-    cli.add_argument("--sema", "--semantic", default="default", help="Estratégia Semântica")
-    cli.add_argument("--gencode", "--codegen", default="llvm", help="Estratégia de Geração de Código")
+    cli.add_argument("--sema", "--semantic", choices=["sema"], default="default", help="Estratégia Semântica")
+    cli.add_argument("--gencode", "--codegen", choices=["llvm"], default="llvm", help="Estratégia de Geração de Código")
     cli.add_argument("-k", action="store_true", default=False, help="Imprimir chaves de Erro.")
     
     args = cli.parse_args()
@@ -83,8 +83,6 @@ def main():
             print(token.type)
     
     
-
-
 
 #     if utils.args.parser:
 #         syntax_tree = execute_syntax_analisys(source_input)
@@ -141,64 +139,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-# def main():
-
-#     global check_tpp
-#     global check_key
-
-#     check_tpp = False
-#     check_key = False
-#     has_file_arg = False
-#     idx_tpp = -1
-
-#     for idx, arg in enumerate(sys.argv[1:], start=1):
-#         if arg == "-k":
-#             check_key = True
-#         else:
-#             has_file_arg = True
-#             aux = arg.split('.')
-#             if aux[-1] == 'tpp':
-#                 check_tpp = True
-#                 idx_tpp = idx
-
-#     if not has_file_arg:
-#         raise TypeError(le.newError(check_key, 'ERR-LEX-USE'))
-#     elif not check_tpp:
-#         raise IOError(le.newError(check_key, 'ERR-LEX-NOT-TPP'))
-#     elif not os.path.exists(sys.argv[idx_tpp]):
-#         raise IOError(le.newError(check_key, 'ERR-LEX-FILE-NOT-EXISTS'))
-#     else:
-#         data = open(argv[idx_tpp])
-
-#         source_file = data.read()
-#         lexer.input(source_file)
-
-#         # Tokenize
-#         while True:
-#             tok = lexer.token()
-#             if not tok:
-#                 break      # No more input
-#             #print(tok)
-#             print(tok.type)
-#             #print(tok.value)
-
-
-
-
-# if __name__ == "__main__":
-
-#     try:
-#         main()
-#     except Exception as e:
-#         print(e)
-#     except (ValueError, TypeError):
-#         print(e)

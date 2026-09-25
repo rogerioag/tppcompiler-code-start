@@ -58,6 +58,13 @@ class BaseLexer(ABC):
             tokens.append(tok)
         return tokens
 
+    def get_tokens(self, data: str):
+        """
+        Retorna o iterador de tokens sob demanda para o código-fonte fornecido.
+        """
+        self.input(data)
+        return iter(self.token, None)
+
     @staticmethod
     def get_column(data: str, lexpos: int) -> int:
         """

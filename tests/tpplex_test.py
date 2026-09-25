@@ -3,56 +3,32 @@ import subprocess
 import shlex
 import os, fnmatch
 
-# test_cases = [
-#     ("", "-k"), 
-#     ("teste.c", "-k"), 
-#     ("notexist.tpp", "-k"), 
-#     ("lex-test-001.tpp", "-k"), 
-#     ("lex-test-002.tpp", "-k"), 
-#     ("lex-test-003.tpp", "-k"), 
-#     ("lex-test-004.tpp", "-k"), 
-#     ("lex-test-005.tpp", "-k"), 
-#     ("lex-teste-006.tpp", "-k"), 
-#     ("bubble_sort_2.tpp", "-k"), 
-#     ("bubble_sort.tpp", "-k"), 
-#     ("Busca_Linear_1061992.tpp", "-k"), 
-#     ("buscaLinear-2020-2.tpp", "-k"), 
-#     ("comp.tpp", "-k"), 
-#     ("fatorial-2020-2.tpp", "-k"), 
-#     ("fatorial.tpp", "-k"), 
-#     ("fat.tpp", "-k"), 
-#     ("fibonacci-2020-2.tpp", "-k"), 
-#     ("fibonacci.tpp", "-k"), 
-#     ("hanoi-2020-2.tpp", "-k"), 
-#     ("insertionSort-2020-2.tpp", "-k"), 
-#     ("insertSort-2020-2.tpp", "-k"), 
-#     ("maiorDoVetor.tpp", "-k"), 
-#     ("multiplicavetor.tpp", "-k"),
-#     ("operacao_vetor-2020-2.tpp", "-k"), 
-#     ("paraBinario-2020-2.tpp", "-k"), 
-#     ("primo.tpp", "-k"), 
-#     ("produtoEscalar.tpp", "-k"), 
-#     ("prog_test.tpp", "-k"), 
-#     ("sample.tpp", "-k"), 
-#     ("selectionSort-2020-2.tpp", "-k"), 
-#     ("selectionsort.tpp", "-k"), 
-#     ("soma_maior_que_3.tpp", "-k"), 
-#     ("somavet.tpp", "-k"), 
-#     ("subtraiVetores.tpp", "-k"), 
-#     ("verifica_valor_10.tpp", "-k"), 
-#     ("verif_num_negativo.tpp", "-k"), 
-#     ("bubble_sort-2020-2.tpp", "-k")
-# ]
-
-# Testes para se passar um arquivo em branco, um arquivo com outra extensão e um arquivo .tpp que não existe.
-test_cases = [("ply", "-k", ""), ("ply", "-k", "teste.c"), ("ply", "-k", "notexist.tpp")]
-
-files = fnmatch.filter(os.listdir('tests/lex-tests/'), '*.tpp')
-for file in sorted(files):
-    test_cases.append(("ply", "-k", file))
+def pytest_generate_tests(metafunc):
+    """Gera dinamicamente os casos de teste com base na opção --lexer."""
+    lexer_opt = metafunc.config.getoption("lexer")
     
+    if lexer_opt == "all":
+        lexers = ["ply", "mandfa", "symtable", "symtableman", "automatalib", "automatalibman"]
+    else:
+        lexers = [lexer_opt]
+    
+    # Testes para se passar um arquivo em branco, um arquivo com outra extensão e um arquivo .tpp que não existe.
+    cases = []
+    for lexer in lexers:
+        cases.append((lexer, "-k", ""))
+        cases.append((lexer, "-k", "teste.c"))
+        cases.append((lexer, "-k", "notexist.tpp"))
+    
+    # Arquivos de teste .tpp
+    files = sorted(fnmatch.filter(os.listdir('tests/lex-tests/'), '*.tpp'))
+    for file in files:
+        for lexer in lexers:
+            cases.append((lexer, "-k", file))
 
-@pytest.mark.parametrize("lexer_type, key_option, input_file", test_cases)
+    metafunc.parametrize("lexer_type, key_option, input_file", cases)
+
+
+# @pytest.mark.parametrize("lexer_type, key_option, input_file", test_cases)
 def test_execute(lexer_type, key_option, input_file):
     if(input_file != ''):
         path_file = 'tests/lex-tests/' + input_file
@@ -82,3 +58,7 @@ def test_execute(lexer_type, key_option, input_file):
 
     assert stdout.decode("utf-8").strip() == expected_output.strip()
 
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(pytest.main(sys.argv[1:] + [__file__]))
