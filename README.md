@@ -332,7 +332,7 @@ tests/tpplex_test.py::test_execute[ply--k-lex-test-039.tpp] PASSED              
 ```
 
 
-[Análise Léxica](docs/LEX-SPECS.md)
-[Análise Sintática](docs/SYN-SPECS.md)
-[Análise Semântica](docs/SEM-SPECS.md)
-[Geração de Código](docs/CODEGEN-SPECS.md)
+[[Análise Léxica]](docs/LEX-SPECS.md)
+[[Análise Sintática]](docs/SYN-SPECS.md)
+[[Análise Semântica]](docs/SEM-SPECS.md)
+[[Geração de Código]](docs/CODEGEN-SPECS.md)
