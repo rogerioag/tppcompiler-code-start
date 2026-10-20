@@ -71,6 +71,8 @@ control_symbols = [
     "FECHA_PARENTESE", # )
     "ABRE_COLCHETE",   # [
     "FECHA_COLCHETE",  # ]
+    "ABRE_CHAVE",      # {
+    "FECHA_CHAVE",     # }
     "VIRGULA",         # ,
     "DOIS_PONTOS",     # :
     "ATRIBUICAO",      # :=
@@ -109,6 +111,8 @@ TOKENS_SYMBOLS = {
     "FECHA_PARENTESE": ")",
     "ABRE_COLCHETE": "[",
     "FECHA_COLCHETE": "]",
+    "ABRE_CHAVE": "{",
+    "FECHA_CHAVE": "}",
     "VIRGULA": ",",
     "DOIS_PONTOS": ":",
     "ATRIBUICAO": ":=",

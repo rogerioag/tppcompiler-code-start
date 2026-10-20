@@ -1,4 +1,4 @@
-{ Fibonacci }
+{* Fibonacci *}
 
 inteiro principal()
 

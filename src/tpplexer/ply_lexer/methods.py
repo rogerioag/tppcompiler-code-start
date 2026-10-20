@@ -48,11 +48,11 @@ def t_NUM_INTEIRO(token):
     return token
 
 def t_COMENTARIO(token):
-    r"(\{((.|\n)*?)\})"
+    r"(\{\*((.|\n)*?)\*\})"
     token.lexer.lineno += token.value.count("\n")
 
 def t_COMENTARIO_NAO_FECHADO(t):
-    r'\{[^}]*$'
+    r'\{\*(.|\n)*'
     column = define_column(t.lexer.lexdata, t.lexpos)
     message = le.newError(check_key, 'ERR-LEX-UNC-COMMENT', t.lineno, column)
     print(message)

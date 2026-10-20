@@ -207,6 +207,8 @@ class AutomataLibLexer(BaseLexer):
             ("FECHA_PARENTESE", _build_dfa_literal(")")),
             ("ABRE_COLCHETE", _build_dfa_literal("[")),
             ("FECHA_COLCHETE", _build_dfa_literal("]")),
+            ("ABRE_CHAVE", _build_dfa_literal("{")),
+            ("FECHA_CHAVE", _build_dfa_literal("}")),
             ("VIRGULA", _build_dfa_literal(",")),
             ("DOIS_PONTOS", _build_dfa_literal(":")),
         ]
@@ -265,18 +267,18 @@ class AutomataLibLexer(BaseLexer):
                 self.pos += 1
                 continue
 
-            # 3. Comentários {...}
-            if c == '{':
+            # 3. Comentários {* ... *}
+            if self.data.startswith('{*', self.pos):
                 start_lineno = self.lineno
                 start_pos = self.pos
-                self.pos += 1
+                self.pos += 2
                 fechado = False
                 while self.pos < self.length:
                     ch = self.data[self.pos]
                     if ch == '\n':
                         self.lineno += 1
-                    elif ch == '}':
-                        self.pos += 1
+                    elif ch == '*' and self.data.startswith('*}', self.pos):
+                        self.pos += 2
                         fechado = True
                         break
                     self.pos += 1

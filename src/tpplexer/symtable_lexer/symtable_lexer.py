@@ -71,6 +71,8 @@ class SymbolTable:
         ")": "FECHA_PARENTESE",
         "[": "ABRE_COLCHETE",
         "]": "FECHA_COLCHETE",
+        "{": "ABRE_CHAVE",
+        "}": "FECHA_CHAVE",
         ",": "VIRGULA",
         ":": "DOIS_PONTOS",
     }
@@ -181,18 +183,18 @@ class SymbolTableLexer(BaseLexer):
                 self.pos += 1
                 continue
 
-            # 3. Comentários: { ... }
-            if c == '{':
+            # 3. Comentários: {* ... *}
+            if c == '{' and self._peek(1) == '*':
                 start_pos = self.pos
                 start_lineno = self.lineno
-                self.pos += 1
+                self.pos += 2
                 fechado = False
                 while self.pos < self.length:
                     ch = self.data[self.pos]
                     if ch == '\n':
                         self.lineno += 1
-                    elif ch == '}':
-                        self.pos += 1
+                    elif ch == '*' and self.data.startswith('*}', self.pos):
+                        self.pos += 2
                         fechado = True
                         break
                     self.pos += 1
@@ -285,7 +287,7 @@ class SymbolTableLexer(BaseLexer):
                 self.pos += 2
                 return Token(entry_two.token_type, two_chars, start_lineno, start_pos)
 
-            # Tenta operador / delimitador de 1 caractere (+, -, *, /, (, ), [, ], ,, :, <, >, =)
+            # Tenta operador / delimitador de 1 caractere (+, -, *, /, (, ), [, ], {, }, ,, :, <, >, =)
             entry_one = self.symbol_table.lookup(c)
             if entry_one is not None and entry_one.is_builtin:
                 self.pos += 1

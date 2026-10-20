@@ -3,8 +3,8 @@
 
 #### Prof. Rogério Aparecido Gonçalves
 
-### __Resumo:__ Este documento apresenta a especificação da 1a. parte do trabalho de implementação da disciplina. O objetivo nessa etapa é projetar e implementar a a fase de *Análise Léxica* do compilador para a linguagem **TPP**. A Análise Léxica é a fase do compilador que lê o _código-fonte_ do arquivo de entrada como um fluxo de caracteres, e nesse processo de varredura reconhece os _tokens_ ou marcas da linguagem. Um repositório template foi preparado para que os alunos obtenham o código inicial da implementação dessa fase e o mesmo repositório será utilizado para as implementações das demais fases do projeto. São fornecidos testes automatizados para serem executados com o _pytest_ e modelo para o relatório de implementação do projeto.
-  
+__Resumo:__ _Este documento apresenta a especificação da 1a. parte do trabalho de implementação da disciplina. O objetivo nessa etapa é projetar e implementar a a fase de Análise Léxica do compilador para a linguagem __TPP__. A Análise Léxica é a fase do compilador que lê o _código-fonte do arquivo de entrada como um fluxo de caracteres, e nesse processo de varredura reconhece os tokens ou marcas da linguagem. Um repositório template foi preparado para que os alunos obtenham o código inicial da implementação dessa fase e o mesmo repositório será utilizado para as implementações das demais fases do projeto. São fornecidos testes automatizados para serem executados com o pytest e modelo para o relatório de implementação do projeto._
+
 # Análise Léxica
 
 A __Análise Léxica__ é a fase do compilador que lê o _código-fonte_ do arquivo de entrada como um fluxo de caracteres, e nesse processo de varredura reconhece os _tokens_ ou marcas da linguagem. As denominações Sistema de Varredura, Analisador Léxico e _Scanner_ são equivalentes.
@@ -33,6 +33,8 @@ Para implementar o sistema de varredura _(scanner)_ para a linguagem `TPP`, é n
 |                         | : dois-pontos   |
 |                         | [ abre-col      |
 |                         | ] fecha-col     |
+|                         | { abre-chave    |
+|                         | } fecha-chave   |
 |                         | && e-logico     |
 |                         | \|\| ou-logico  |
 |                         | ! negação       |
@@ -44,21 +46,17 @@ Ainda podem ser definidos os `tokens` seguintes:
 
 - **número**: 1 ou mais dígitos que podem ser *inteiro* ou *flutuante* (representação em notação científica ou não);
 - **identificador**: começa com uma letra e precede com $N$ letras e números sem limite de tamanho;
-- **comentários**: cercados de chaves da seguinte forma: `{...}`. É possível inclusive comentários que cubram múltiplas linhas. Comentários devem ser ignorados no processo de reconhecimento.
+- **comentários**: cercados de chaves com asterisco da seguinte forma: `{*...*}`. As chaves sem asterisco (`{` e `}`) são os tokens `ABRE_CHAVE` e `FECHA_CHAVE`, usados na inicialização de arrays (`A := {1, 2, 3}`). É possível inclusive comentários que cubram múltiplas linhas. Comentários devem ser ignorados no processo de reconhecimento.
 
 Os `tokens` estão definidos na [Gramática da Linguagem](https://docs.google.com/document/d/1e7_M-bD1RUbJAnyR8rZyJ35vKbYEN6KQG4l5L8FQ7_I/edit?usp=sharing)[^3], e são listados no @lst:tokens.
 
 
 ```{#lst:tokens .ebnf caption="Tokens da Linguagem"}
-MAIS, MENOS, VEZES, DIVIDE, DOIS_PONTOS, VIRGULA, MENOR, MAIOR, IGUAL, DIFERENTE, 
-MENOR_IGUAL, MAIOR_IGUAL, E, OU, NAO, ABRE_PARENTESE, FECHA_PARENTESE, 
-ABRE_COLCHETE, FECHA_COLCHETE, SE, ENTAO, SENAO, FIM, REPITA, ATE, ATRIBUICAO, 
-LEIA, ESCREVA, RETORNA, INTEIRO, FLUTUANTE, NUM_INTEIRO, NUM_PONTO_FLUTUANTE, 
-NUM_NOTACAO_CIENTIFICA, ID
+MAIS, MENOS, VEZES, DIVIDE, DOIS_PONTOS, VIRGULA, MENOR, MAIOR, IGUAL, DIFERENTE, MENOR_IGUAL, MAIOR_IGUAL, E, OU, NAO, ABRE_PARENTESE,  FECHA_PARENTESE, ABRE_COLCHETE, FECHA_COLCHETE, ABRE_CHAVE, FECHA_CHAVE, SE, ENTAO, SENAO, FIM, REPITA, ATE, ATRIBUICAO, LEIA, ESCREVA, RETORNA, INTEIRO, FLUTUANTE, NUM_INTEIRO, NUM_PONTO_FLUTUANTE, NUM_NOTACAO_CIENTIFICA, ID
 ```
 [^3]:[Gramática da Linguagem](https://docs.google.com/document/d/1e7_M-bD1RUbJAnyR8rZyJ35vKbYEN6KQG4l5L8FQ7_I/edit?usp=sharing)
 
-**Obs.:** As palavras reservadas são em português brasileiro como indicado na tabela, com acentuação.
+Este documento apresenta a especificação da 1a. parte do trabalho de implementação da disciplina. O objetivo nessa etapa é projetar e implementar a a fase de Análise Léxica do compilador para a linguagem __TPP__. A Análise Léxica é a fase do compilador que lê o _código-fonte do arquivo de entrada como um fluxo de caracteres, e nesse processo de varredura reconhece os tokens ou marcas da linguagem. Um repositório template foi preparado para que os alunos obtenham o código inicial da implementação dessa fase e o mesmo repositório será utilizado para as implementações das demais fases do projeto. São fornecidos testes automatizados para serem executados com o pytest e modelo para o relatório de implementação do projeto._**Obs.:** As palavras reservadas são em português brasileiro como indicado na tabela, com acentuação.
 
 O código base para a implementação está disponível no link [Link para o Código de Start no Github Classroom](https://moodle.utfpr.edu.br/mod/url/view.php?id=1733830) do Moodle.
 
@@ -697,6 +695,6 @@ __Capítulo 2: Scanners__
 
 ## _Word Cloud_
 
-![](figuras/trabalho-01.md.wordcloud.png){ width=100% }
+![](figuras/lex-specs.md.wordcloud.png){ width=100% }
 
 ## Referências {.fragile .allowframebreaks}

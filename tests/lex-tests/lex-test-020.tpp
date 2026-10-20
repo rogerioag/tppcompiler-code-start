@@ -1,11 +1,11 @@
-{ insertion sort }
+{* insertion sort *}
 
 inteiro: i, j, x, tam
 inteiro: vet[10]
 
 tam := 10
 
-{ implementação do insertion sort }
+{* implementação do insertion sort *}
 insert_sort()
   i := 2
   repita
@@ -26,7 +26,7 @@ insert_sort()
   até i <= tam
 fim
 
-{ implementação da funcao para imprimir o vetor }
+{* implementação da funcao para imprimir o vetor *}
 printArray()
   inteiro: p
     p := 0
@@ -37,7 +37,7 @@ fim
 
 inteiro principal()
 
-  { preenche o vetor }
+  {* preenche o vetor *}
   inteiro: z
 	z := 0
 	repita 
@@ -45,10 +45,10 @@ inteiro principal()
 		z := z + 1
 	até z < tam
 
-  { chama a funcao insertion sort }
+  {* chama a funcao insertion sort *}
   insert_sort()
 
-  { chama a funcao para imprimir }
+  {* chama a funcao para imprimir *}
   printArray()
 
   retorna(0)

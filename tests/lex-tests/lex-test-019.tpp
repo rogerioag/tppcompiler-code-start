@@ -1,4 +1,4 @@
-{ insertionSort }
+{* insertionSort *}
 
 inteiro: n
 n := 10

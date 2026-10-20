@@ -1,4 +1,4 @@
-{A função preenche o vetor com valores}
+{*A função preenche o vetor com valores*}
 preeenche_vetor(inteiro: vetor[], inteiro: tamanho) 
   inteiro: indice := 0
 
@@ -12,7 +12,7 @@ preeenche_vetor(inteiro: vetor[], inteiro: tamanho)
   até indice >= tamanho
 fim
 
-{A função processa o vetor}
+{*A função processa o vetor*}
 processa_vetor(inteiro: vetor[], inteiro: tamanho) 
   inteiro: indice := 0
   inteiro: resultado := 0

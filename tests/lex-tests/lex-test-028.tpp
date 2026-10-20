@@ -1,6 +1,6 @@
-{
+{*
 	computa se um numero eh primo
-}
+*}
 inteiro: num
 
 inteiro principal()

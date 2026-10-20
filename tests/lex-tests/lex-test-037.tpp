@@ -1,16 +1,16 @@
-{Ç}
+{*Ç*}
 
-{Comentário
-}
+{*Comentário
+*}
 
-{
-Comentário}
+{*
+Comentário*}
 
-{
+{*
 Ç
-}
+*}
 
-{ ! }
+{* ! *}
 
 Ç
 !
@@ -21,18 +21,18 @@ Comentário}
 
 inteiro principal()
 
-	{       Comentário      }
+	{*       Comentário      *}
 
 	retorna(0)
 
-	{
+	{*
 
 	Comentário
 
-	}
+	*}
 fim
 
-{       Comentário      }
+{*       Comentário      *}
 %
 #
 @

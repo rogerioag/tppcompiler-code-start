@@ -1,4 +1,4 @@
-{Teste de Emissão de Todos os Tokens}
+{*Teste de Emissão de Todos os Tokens*}
 
 +
 -
@@ -19,8 +19,8 @@
 )
 [
 ]
-{
-}
+{*
+*}
 se
 então
 senão

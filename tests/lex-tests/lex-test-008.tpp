@@ -1,4 +1,4 @@
-{ bubble_sort-2020-2 }
+{* bubble_sort-2020-2 *}
 
 flutuante: A[20]
 

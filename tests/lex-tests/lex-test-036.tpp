@@ -1,16 +1,16 @@
-{Comentário}
+{*Comentário*}
 
-{Comentário
-}
+{*Comentário
+*}
 
-{
-Comentário}
+{*
+Comentário*}
 
-{
+{*
 Comentário
-}
+*}
 
-{ Comentário }
+{* Comentário *}
 
 
 
@@ -18,15 +18,15 @@ Comentário
 
 inteiro principal()
 
-	{       Comentário      }
+	{*       Comentário      *}
 
 	retorna(0)
 
-	{
+	{*
 
 	Comentário
 
-	}
+	*}
 fim
 
-{       Comentário      }
+{*       Comentário      *}

@@ -10,6 +10,6 @@ inteiro maiorvetor(inteiro:v[], inteiro:tam)
 	retorna maior
 
 inteiro main()
-	inteiro v[5] := {1,2,3,4,5}
+	inteiro v[5] := {*1,2,3,4,5*}
 	inteiro maior := maiorvetor(v,5)
 	escreva (maior)

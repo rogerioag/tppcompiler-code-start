@@ -32,7 +32,7 @@ def generate_large_tpp_code(num_blocks: int = 1500) -> str:
     - Identificadores: variáveis novas e reutilizadas
     - Literais numéricos: inteiros, decimais e notação científica
     - Operadores: :=, +, -, *, /, =, <, >, <=, >=, <>
-    - Comentários de bloco { ... } e espaços em branco
+    - Comentários de bloco {* ... *} e espaços em branco
     
     Cada bloco gera 46 tokens léxicos.
     Com 1.500 blocos = ~69.000 tokens.
@@ -41,7 +41,7 @@ def generate_large_tpp_code(num_blocks: int = 1500) -> str:
     blocks = []
     for i in range(num_blocks):
         blocks.append(f"""
-        {{ Bloco estruturado de processamento e stress léxico #{i} }}
+        {{* Bloco estruturado de processamento e stress léxico #{i} *}}
         inteiro: cont_{i}, limite_{i}, acum_{i}
         flutuante: taxa_{i}, delta_{i}, total_{i}
         

@@ -12,7 +12,7 @@ Tipos numéricos inteiros (`NUM_INTEIRO`), ponto flutuante (`NUM_PONTO_FLUTUANTE
 
 Operadores e Símbolos, aritméticos (`+`, `-`, `*`, `/`), lógicos (`&&`, `||`, `!`), relacionais (`<>`, `<=`, `>=`, `<`, `>`, `=`), atribuição (`:=`), e delimitadores (`(`, `)`, `[`, `]`, `,`, `:`).
 
-O tratamento de comentários e linhas. Comentários utilizam o formato `{ ... }`,  o que estiver interno às marcações de comentário são ignorados no fluxo de _tokens_, mas a contagem de linhas (`lineno`) é atualizada levando em conta quebras de linha dentro do bloco de comentário.
+O tratamento de comentários e linhas. Comentários utilizam o formato `{* ... *}`,  o que estiver interno às marcações de comentário são ignorados no fluxo de _tokens_, mas a contagem de linhas (`lineno`) é atualizada levando em conta quebras de linha dentro do bloco de comentário.
 
 Além dessas classes de _token_, precisam ser reconhecidos os nomes de variáveis e funções que são os _identificadores_.
 

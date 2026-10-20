@@ -1,4 +1,4 @@
-{ bubble_sort_2 }
+{* bubble_sort_2 *}
 
 inteiro: a[100]
 inteiro: b[100]

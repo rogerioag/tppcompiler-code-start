@@ -84,20 +84,20 @@ class ManualDFALexer(BaseLexer):
                 continue
 
             # -------------------------------------------------------------
-            # 2. Comentários: { ... }
+            # 2. Comentários: {* ... *}
             # -------------------------------------------------------------
-            if c == '{':
+            if c == '{' and self._peek(1) == '*':
                 start_pos = self.pos
                 start_lineno = self.lineno
-                self.pos += 1
+                self.pos += 2
                 fechado = False
 
                 while self.pos < self.length:
                     ch = self.data[self.pos]
                     if ch == '\n':
                         self.lineno += 1
-                    elif ch == '}':
-                        self.pos += 1
+                    elif ch == '*' and self.data.startswith('*}', self.pos):
+                        self.pos += 2
                         fechado = True
                         break
                     self.pos += 1
@@ -272,6 +272,14 @@ class ManualDFALexer(BaseLexer):
             if c == ']':
                 self.pos += 1
                 return Token("FECHA_COLCHETE", "]", start_lineno, start_pos)
+
+            if c == '{':
+                self.pos += 1
+                return Token("ABRE_CHAVE", "{", start_lineno, start_pos)
+
+            if c == '}':
+                self.pos += 1
+                return Token("FECHA_CHAVE", "}", start_lineno, start_pos)
 
             if c == ',':
                 self.pos += 1
