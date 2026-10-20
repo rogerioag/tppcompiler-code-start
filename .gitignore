@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Árvores sintáticas geradas pelos testes (python src/tpp_compiler.py --parser ... -t)
+tests/syn-tests/*.ast.dot
+tests/syn-tests/*.unique.ast.png
+tests/syn-tests/*ascii_tree.txt
+tests/syn-tests/*.syn..out
+tests/syn-tests/lex.log
+
+# Arquivos de bloqueio do LibreOffice
+.~lock.*#
