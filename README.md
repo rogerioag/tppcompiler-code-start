@@ -279,7 +279,7 @@ tests/tpplex_test.py::test_execute[ply--k-lex-test-021.tpp] PASSED              
 tests/tpplex_test.py::test_execute[ply--k-lex-test-022.tpp] PASSED                       [ 59%]
 tests/tpplex_test.py::test_execute[ply--k-lex-test-023.tpp] PASSED                       [ 61%]
 tests/tpplex_test.py::test_execute[ply--k-lex-test-024.tpp] PASSED                       [ 64%]
-tests/tpplex_test.py::test_execute[ply--k-lex-test-025.tpp] PASSED                       [ 66%]
+tests/tpplex_test.py::test_execute[ply--k-lex-test-025.tpp] P~fabiom/comp/12ActionGoto.pdfASSED                       [ 66%]
 tests/tpplex_test.py::test_execute[ply--k-lex-test-026.tpp] PASSED                       [ 69%]
 tests/tpplex_test.py::test_execute[ply--k-lex-test-027.tpp] PASSED                       [ 71%]
 tests/tpplex_test.py::test_execute[ply--k-lex-test-028.tpp] PASSED                       [ 73%]
