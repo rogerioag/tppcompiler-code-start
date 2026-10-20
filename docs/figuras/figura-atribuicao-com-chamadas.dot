@@ -1,0 +1,22 @@
+graph tree {
+    size="20,20";
+    rankdir="BT";
+    attrib [shape="ellipse", label=":=" ]
+    a [shape="ellipse"]
+    b [shape="ellipse"]
+    mais [shape="ellipse",label="+"]
+    c [shap="ellipse"]
+    
+    store [ shape=note, style="filled", label="store i32 %4, i32* @a, align 4",fillcolor="#9494b8"]
+    load_b [ shape=note, style="filled", label="%2 = load i32, i32* @b, align 4", fillcolor="#ff3377"]
+    load_c[ shape=note, style="filled", label="%3 = load i32, i32* @c, align 4", fillcolor="#ffa366"]
+    add_bc[ shape=note, style="filled", label="%4 = add nsw i32 %2, %3", fillcolor="#bbbb77"]
+    attrib -- a 
+    attrib -- mais
+    mais -- b
+    mais -- c
+    store -- attrib
+    load_b  --  b
+    load_c  --  c
+    add_bc -- mais
+}
