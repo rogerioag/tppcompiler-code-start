@@ -704,11 +704,13 @@ __Capítulo 3: Análise Léxica__
 
 :::: {.callout-note title="Leitura Recomendada"}
 
+[!NOTE]
+**Leitura Recomendada**
+
 __Capítulo 2: Scanners__
 
 **Livro**: [`COOPER, Keith D.; TORCZON, Linda. Construindo compiladores. Rio de Janeiro, RJ: Elsevier/Campus, 2014. xxiv, 656 p. ISBN 9788535255645. Disponível em: https://research.ebsco.com/linkprocessor/plink?id=debd0a1f-ba89-3ee8-b0a1-2c929486cc51. Acesso em: 12 mar. 2024.`](https://integrada.minhabiblioteca.com.br/#/books/9781558606982/pageid/48)
 
-::::
 
 ## _Word Cloud_
 
