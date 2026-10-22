@@ -131,7 +131,7 @@ No [Código de Start](https://moodle.utfpr.edu.br/mod/url/view.php?id=1733830) t
 ```text
  GlobalErrorMessages.properties
  tpplexer/LexerErrorMessages.properties
- tppparser/ ParserErrorMessages.properties
+ tppparser/ParserErrorMessages.properties
  tppsema/SemaErrorMessages.properties
  tppcodegen/CodeGenErrorMessages.properties
 ```
@@ -478,18 +478,21 @@ tests/lex-tests/lex-test-001.tpp
 
 Arquivo: `tests/lex-tests/lex-test-001.tpp`.
 
-[columns]
+:::: {.columns}
 
-[column=0.5]
-
+::: {.column width="47.5%"}
 __Entrada:__
 
 ```txt
 inteiro: a,b
 ```
+:::
 
-[column=0.5]
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
 
+::: {.column width="47.5%"}
 __Saída gerada:__
 
 ```txt
@@ -499,8 +502,9 @@ ID
 VIRGULA
 ID
 ```
+:::
 
-[/columns]
+::::
 
 
 Exemplo de saída para teste com erro em _execução normal_.
@@ -512,19 +516,22 @@ Exemplo de saída para teste com erro em _execução normal_.
 
 Arquivo: `tests/lex-tests/lex-test-002.tpp`
 
-[columns]
+:::: {.columns}
 
-[column=0.5]
-
+::: {.column width="47.5%"}
 __Entrada:__
 
 ```txt
 inteiro: a,b
 ç
 ```
+:::
 
-[column=0.5]
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
 
+::: {.column width="47.5%"}
 __Saída gerada:__
 
 ```txt
@@ -535,8 +542,10 @@ VIRGULA
 ID
 Erro[2][1]: Caracter inválido. valor: ç
 ```
+:::
 
-[/columns]
+::::
+
 
 Já em uma _execução de testes automatizados_ seja fornecido um parâmetro `-k` que imprima o código de erro apenas, possibilitando que o código apareça entre os _tokens_ da lista de _tokens_ gerada para o arquivo de entrada.
 
@@ -549,18 +558,21 @@ Exemplo de saída para teste sem erros em _execução de testes automatizados_ n
 
 Arquivo: `tests/lex-tests/lex-test-001.tpp`
 
-[columns]
+:::: {.columns}
 
-[column=0.5]
-
+::: {.column width="47.5%"}
 __Entrada:__
 
 ```txt
 inteiro: a,b
 ```
+:::
 
-[column=0.5]
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
 
+::: {.column width="47.5%"}
 __Saída gerada:__
 
 ```txt
@@ -570,8 +582,9 @@ ID
 VIRGULA
 ID
 ```
+:::
 
-[/columns]
+::::
 
 Exemplo de saída para teste com erros em _execução de testes automatizados_.
 
@@ -582,10 +595,9 @@ Exemplo de saída para teste com erros em _execução de testes automatizados_.
 
 Arquivo: `tests/lex-tests/lex-test-002.tpp`
 
-[columns]
+:::: {.columns}
 
-[column=0.5]
-
+::: {.column width="47.5%"}
 __Entrada:__
 
 ```txt
@@ -593,8 +605,11 @@ inteiro: a,b
 ç
 ```
 
-[column=0.5]
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
 
+::: {.column width="47.5%"}
 __Saída gerada:__
 
 ```txt
@@ -605,7 +620,9 @@ VIRGULA
 ID
 ERR-LEX-INV-CHAR
 ```
-[/columns]
+::: 
+
+::::
 
 Note que a opção `-k` foi introduzida e a chave `ERR-LEX-INV-CHAR` foi impressa no lugar da mensagem de erro, facilitando a verificação automatizada do código, sem a preocupação sobre o formato da mensagem de erro que desenvolvedor colocou.
 
@@ -669,29 +686,29 @@ O trabalho será **individual** e deverá ser entregue até o dia **06/10/2026**
 ## Leitura Recomendada {.allowframebreaks}
 \normalsize
 
-[alertblock]{Leitura Recomendada}
+:::: {.callout-note title="Leitura Recomendada"}
 
 __Capítulo 2: Varredura__
 
 **Livro**: [```LOUDEN, Kenneth C. Compiladores: principios e praticas. Sao Paulo, SP: Thomson, c2004. xiv, 569 p. ISBN 8522104220.```](https://integrada.minhabiblioteca.com.br/reader/books/9788522128532/pageid/95)
 
-[/alertblock]
+::::
 
-[exampleblock]{Leitura Recomendada}
+:::: {.callout-note title="Leitura Recomendada"}
 
 __Capítulo 3: Análise Léxica__
 
 **Livro**: [`AHO, Alfred V. et al. Compiladores: principios, tecnicas e ferramentas. 2. ed. Sao Paulo, SP: Pearson Addison-Wesley, 2008. x, 634 p. ISBN 9788588639249.`](https://integrada.minhabiblioteca.com.br/#/books/9788588639249/pageid/89)
 
-[/exampleblock]
+::::
 
-[block]{Leitura Recomendada}
+:::: {.callout-note title="Leitura Recomendada"}
 
 __Capítulo 2: Scanners__
 
 **Livro**: [`COOPER, Keith D.; TORCZON, Linda. Construindo compiladores. Rio de Janeiro, RJ: Elsevier/Campus, 2014. xxiv, 656 p. ISBN 9788535255645. Disponível em: https://research.ebsco.com/linkprocessor/plink?id=debd0a1f-ba89-3ee8-b0a1-2c929486cc51. Acesso em: 12 mar. 2024.`](https://integrada.minhabiblioteca.com.br/#/books/9781558606982/pageid/48)
 
-[/block]
+::::
 
 ## _Word Cloud_
 
