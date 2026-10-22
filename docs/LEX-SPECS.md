@@ -704,7 +704,7 @@ __Capítulo 3: Análise Léxica__
 
 :::: {.callout-note title="Leitura Recomendada"}
 
-> [!NOTE]
+> [!IMPORTANT]
 > **Leitura Recomendada**
 > 
 >__Capítulo 2: Scanners__
@@ -714,6 +714,6 @@ __Capítulo 3: Análise Léxica__
 
 ## _Word Cloud_
 
-![](figuras/lex-specs.md.wordcloud.png){ width=100% }
+![](figuras/lex-specs.md.wordcloud.png}
 
 ## Referências {.fragile .allowframebreaks}
