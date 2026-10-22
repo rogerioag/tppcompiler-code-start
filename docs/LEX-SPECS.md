@@ -681,28 +681,20 @@ O trabalho será **individual** e deverá ser entregue até o dia **06/10/2026**
 
 **Obs.:** Favor utilizar ZIP como forma de compactação. O Relatório deve ser entregue impresso, no horário da aula, para o professor.
 
-\newpage
 
-## Leitura Recomendada {.allowframebreaks}
-\normalsize
+## Leitura Recomendada
 
-:::: {.callout-note title="Leitura Recomendada"}
+> [!IMPORTANT]
+> __Capítulo 2: Varredura__
+> 
+> **Livro**: [```LOUDEN, Kenneth C. Compiladores: principios e praticas. Sao Paulo, SP: Thomson, c2004. xiv, 569 p. ISBN 8522104220.```](https://integrada.minhabiblioteca.com.br/reader/books/9788522128532/pageid/95)
 
-__Capítulo 2: Varredura__
-
-**Livro**: [```LOUDEN, Kenneth C. Compiladores: principios e praticas. Sao Paulo, SP: Thomson, c2004. xiv, 569 p. ISBN 8522104220.```](https://integrada.minhabiblioteca.com.br/reader/books/9788522128532/pageid/95)
-
-::::
-
-:::: {.callout-note title="Leitura Recomendada"}
-
-__Capítulo 3: Análise Léxica__
-
-**Livro**: [`AHO, Alfred V. et al. Compiladores: principios, tecnicas e ferramentas. 2. ed. Sao Paulo, SP: Pearson Addison-Wesley, 2008. x, 634 p. ISBN 9788588639249.`](https://integrada.minhabiblioteca.com.br/#/books/9788588639249/pageid/89)
-
-::::
-
-:::: {.callout-note title="Leitura Recomendada"}
+> [!IMPORTANT]
+> **Leitura Recomendada**
+> 
+> __Capítulo 3: Análise Léxica__
+> 
+> **Livro**: [`AHO, Alfred V. et al. Compiladores: principios, tecnicas e ferramentas. 2. ed. Sao Paulo, SP: Pearson Addison-Wesley, 2008. x, 634 p. ISBN 9788588639249.`](https://integrada.minhabiblioteca.com.br/#/books/9788588639249/pageid/89)
 
 > [!IMPORTANT]
 > **Leitura Recomendada**
