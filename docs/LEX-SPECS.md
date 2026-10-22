@@ -714,6 +714,6 @@ __Capítulo 3: Análise Léxica__
 
 ## _Word Cloud_
 
-![](figuras/lex-specs.md.wordcloud.png}
+![](figuras/lex-specs.md.wordcloud.png)
 
 ## Referências {.fragile .allowframebreaks}
