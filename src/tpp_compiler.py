@@ -11,6 +11,7 @@ import argparse
 from src.myerror import MyError
 from src.tpplexer import get_lexer
 from src.tppparser import get_parser
+from src.tppsema import get_sema
 
 import logging
 logging.basicConfig(
@@ -51,6 +52,8 @@ def tratador_de_erros(etapa):
     """Mensagens de uso/arquivo: chaves ERR-SYN-* na análise sintática, ERR-GLOB-* nas demais."""
     if etapa == "parser":
         return MyError('ParserErrors'), 'ERR-SYN'
+    if etapa == "sema":
+        return MyError('SemaErrors'), 'ERR-SEM'
     return MyError('GlobalErrors'), 'ERR-GLOB'
 
 
@@ -117,13 +120,21 @@ def main():
     # parser (que pede os tokens ao lexer escolhido), sem imprimir os tokens.
     log.info("[parser]: Executing Syntax Analysis (lexer: %s).", args.lexer)
     parser = get_parser(args.parser, check_key=check_key, check_gentree=args.tree, lexer=args.lexer)
-    syntax_tree = parser.parse(source_file, filename=args.fonte, check_key=check_key, check_gentree=args.tree)
+    # Como etapa intermediária, o parser não imprime o resumo da análise sintática
+    # (WAR-SYN-ANA-SUCCESS...), só os erros de sintaxe.
+    syntax_tree = parser.parse(source_file, filename=args.fonte, check_key=check_key,
+                               check_gentree=args.tree, relatorio=(final == "parser"))
     if final == "parser":
         return
 
-    # TODO: Análise Semântica (args.sema) sobre syntax_tree.
-    log.info("[sema]: Semantic Analysis not implemented yet.")
-    print("Análise Semântica ainda não implementada.", file=sys.stderr)
+    # A Análise Semântica só é feita sobre uma árvore sintática sem erros.
+    if syntax_tree is None or getattr(parser, "erros", 0):
+        log.info("[sema]: Syntax errors found, Semantic Analysis not executed.")
+        return
+
+    log.info("[sema]: Executing Semantic Analysis (sema: %s).", args.sema)
+    sema = get_sema(args.sema, check_key=check_key)
+    reduced_syntax_tree = sema.analyze(syntax_tree, check_key=check_key)
     if final == "sema":
         return
 

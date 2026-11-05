@@ -20,6 +20,13 @@ def pytest_addoption(parser):
         choices=["all", "yacc", "topdown"],
         help="Especifica qual parser testar: yacc, topdown ou all (padrão: yacc)",
     )
+    parser.addoption(
+        "--sema",
+        action="store",
+        default="sema",
+        choices=["all", "sema"],
+        help="Especifica qual analisador semântico testar: sema ou all (padrão: sema)",
+    )
 
 def pytest_collection_modifyitems(config, items):
     lexer = config.getoption("--lexer")

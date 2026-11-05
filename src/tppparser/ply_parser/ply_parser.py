@@ -29,6 +29,7 @@ tokens = list(tokens) + ['NEWLINE']
 
 # Regra genérica de tratamento de erros. Se não existir um p_regra_error para tratar o erro, vem para essa geral.
 def p_error(p):
+    estado.erros_sintaticos += 1
     if p:
         token = p
         line = token.lineno
@@ -58,8 +59,18 @@ class PLYParser(BaseParser):
                                     write_tables=False, tabmodule='tpp_parser_tab',
                                     errorlog=yacc.NullLogger())
 
-    def parse(self, source_code: str, filename: str = "", check_key: bool = None, check_gentree: bool = None, **kwargs):
+    def parse(self, source_code: str, filename: str = "", check_key: bool = None, check_gentree: bool = None,
+              relatorio: bool = True, **kwargs):
+        """
+        Analisa source_code e retorna a árvore sintática.
+
+        relatorio: imprime o resumo da análise (WAR-SYN-ANA-SUCCESS, ERR-SYN-IRRECUPERAVEL...).
+        Quando a análise sintática é uma etapa intermediária (--sema, --gencode), a CLI
+        passa relatorio=False; os erros de sintaxe continuam sendo impressos.
+        Depois da análise, self.erros tem a quantidade de erros de sintaxe.
+        """
         estado.root = None
+        estado.erros_sintaticos = 0
         estado.source_file = source_code
         ck = check_key if check_key is not None else self.check_key
         cg = check_gentree if check_gentree is not None else self.check_gentree
@@ -69,6 +80,10 @@ class PLYParser(BaseParser):
         from src.tpplexer import get_lexer
         lexer = NewlineFilter(get_lexer(self.lexer_strategy, check_key=ck))
         ast = self.parser.parse(source_code, lexer=lexer)
+        self.erros = estado.erros_sintaticos
+
+        if not relatorio:
+            return estado.root or ast
 
         if estado.root and estado.root.children != () and cg:
             print(estado.error_handler.newError(ck, 'WAR-SYN-GEN-SYNTAX-TREE'))

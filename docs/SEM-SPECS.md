@@ -204,7 +204,7 @@ As **Regras Semânticas** que precisam ser verificadas para a identicação de e
 
 4. **Arranjos.** Na linguagem `TPP` é possível declarar arranjos, pela sintaxe da linguagem o índice de um arranjo é inteiro e isso deve ser verificado. Na tabela de símbolos devemos armazenar se uma variável declarada tem um tipo, se é uma variável escalar ou um vetor ou uma matriz. Podemos armazenar um campo 'dimensões', que '0': escalar, '1': arranjo unidimensional (vetor) e '2': arranjo bidimensional (matriz) e assim por diante.
 
-	4.1. Encontrado a referência a um arranjo, seu o índice, seja um número, variável ou expressão deve ser um `inteiro`. Do contrário, a mensagem deve ser gerada:
+	4.1. Encontrado a referência a um arranjo, seu o índice, seja um número, variável ou expressão deve ser um `inteiro`. Isso vale tanto na declaração, em que a expressão entre colchetes é o tamanho da dimensão (`inteiro: v[n]`, `flutuante: M[2][n + 1]`), quanto no uso, em que ela é o índice do elemento (`v[i]`, `M[0][j - 1]`). Do contrário, a mensagem deve ser gerada:
 
 	__Tipo:__ Erro.
 	
@@ -212,7 +212,9 @@ As **Regras Semânticas** que precisam ser verificadas para a identicação de e
 
 	__Mensagem:__ `Indice de array 'x' não 'inteiro'.`
 
-	4.2. Se o acesso ao elemento do arranjo estiver fora de sua definição, por exemplo um vetor `A` é declarado como tendo `10` elementos (0 a 9) e há um acesso ao `A[10]`, a mensagem de erro deve ser apresentada: 
+	A árvore permite distinguir os dois usos de `v[...]`: na declaração, a `var` está dentro de `lista_variaveis` (tamanho); numa atribuição ou expressão, está dentro de um `fator` (índice).
+
+	4.2. Se o acesso ao elemento do arranjo estiver fora de sua definição, por exemplo um vetor `A` é declarado como tendo `10` elementos (0 a 9) e há um acesso ao `A[10]`, a mensagem de erro deve ser apresentada. A mesma mensagem deve ser apresentada na declaração quando o tamanho de uma dimensão não for maior que zero, como em `inteiro: v[0]` ou `inteiro: v[-1]`. As duas verificações valem para os valores conhecidos durante a compilação, como números: 
 	
 	__Tipo:__ Erro.
 	
@@ -220,17 +222,7 @@ As **Regras Semânticas** que precisam ser verificadas para a identicação de e
 
 	__Mensagem:__ `Indice de array 'A' fora do intervalo (out of range).`
 
-	4.3. __Tamanho do arranjo na declaração.__ Na declaração (`inteiro: v[5]`), a expressão entre colchetes é o __tamanho__ da dimensão, e não um índice. Ela deve ser uma constante `inteiro` maior que zero:
-
-	__Tipo:__ Erro.
-	
-	__Chave:__ `ERR-SEM-ARRAY-SIZE-NOT-CONST`
-
-	__Mensagem:__ `Tamanho do arranjo 'v' deve ser uma constante inteira positiva.`
-
-	A árvore permite distinguir os dois usos de `v[...]`: na declaração, a `var` está dentro de `lista_variaveis` (tamanho); numa atribuição ou expressão, está dentro de um `fator` (índice).
-
-	4.4. __Inicialização de arranjos.__ Um inicializador (`{1, 2, 3}`, ou `{{1, 2}, {3, 4}}` para matrizes) pode aparecer na declaração (`inteiro: v[5] := {1, 2, 3, 4, 5}`), na inicialização global (`v := {1, 2}`) e em atribuições. O inicializador se ajusta à forma do alvo:
+	4.3. __Inicialização de arranjos.__ Um inicializador (`{1, 2, 3}`, ou `{{1, 2}, {3, 4}}` para matrizes) pode aparecer na declaração (`inteiro: v[5] := {1, 2, 3, 4, 5}`), na inicialização global (`v := {1, 2}`) e em atribuições. O inicializador se ajusta à forma do alvo:
 
 	- __Inicialização parcial:__ se o alvo tem mais posições que o inicializador, as restantes recebem `0`. `inteiro: v[5] := {1, 2}` equivale a `{1, 2, 0, 0, 0}`. Não gera mensagem.
 	- __Alvo escalar:__ se o alvo é um elemento (`v[4]`) ou uma variável escalar, é usado o primeiro elemento: `v[4] := {1, 2}` equivale a `v[4] := 1`.
@@ -466,38 +458,35 @@ No [Código Start da Semântica no Github Classroom](https://moodle.utfpr.edu.br
 
 Nas fases anteriores provavelmente você alterou os arquivos relacionados à Análise Léxica e Sintática, copie seus arquivos para atualizar as versões iniciais que estão nesse _Código de Start_ para a parte Semântica.
 
-Para que os testes possam ser automatizados foi disponibilizado um arquivo padrão que o `Github` utiliza para executar os testes a cada `commit` realizado. O sistema executa o `tppsema_test.py` que chama o `tppsema.py` da sua implementação com cada um dos arquivos de teste e compara se a saída produzida é a mesma saída esperada.
+### Código inicial da Análise Semântica
 
-```python
-import tppsema
-import subprocess
-import os, fnmatch
+O código inicial segue a mesma organização das fases anteriores (`src/tpplexer/` e `src/tppparser/`):
 
-def execute_test(input_file):
-    path_file = 'tests/' + input_file
-    process = subprocess.Popen(['python', 'tppsema.py', path_file],
-                     stdout=subprocess.PIPE,
-                     stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    stdout, stderr
+```text
+src/tppsema/
+├── __init__.py                     # Factory get_sema e exportações
+├── base.py                         # Classe base abstrata (BaseSema)
+├── SemaErrorMessages.properties    # Mensagens de erro e aviso da semântica
+└── sema/                           # Estratégia padrão ("sema")
+    ├── tppsema.py                  # TPPSema: aplica as regras e devolve a árvore podada
+    ├── symbol_table.py             # Tabela de símbolos (a implementar)
+    ├── pruning.py                  # Poda da árvore sintática (a implementar)
+    └── rules/                      # Uma regra por categoria desta especificação (a implementar)
+        ├── functions.py            # 1. Funções e Procedimentos
+        ├── variables.py            # 2. Variáveis
+        ├── coercions.py            # 3. Atribuição de tipos distintos e coerções implícitas
+        ├── arrays.py               # 4. Arranjos
+        ├── assignments.py          # 5. Atribuição múltipla, encadeada e tuplas
+        ├── returns.py              # 6. Retorno múltiplo
+        └── expressions.py          # 7. Expressões
+```
 
-    output_file = open(path_file + ".out", "r")
+A Análise Semântica é executada pelo `src/tpp_compiler.py` com a opção `--sema`, que executa antes as análises léxica e sintática. A semântica só é executada quando a árvore sintática não tem erros. Cada módulo de `rules/` tem uma função `verificar(arvore, tabela, sema)`, chamada pelo `TPPSema`; os erros e avisos devem ser impressos por `sema.emitir(chave, *args, linha=..., coluna=...)`, que trata a opção `-k`.
 
-    #read whole file to a string
-    expected_output = output_file.read()
+Para que os testes possam ser automatizados, o `Github` executa o `tests/tppsema_test.py` a cada `commit`. Ele executa o `src/tpp_compiler.py --sema sema -k` com cada arquivo `.tpp` de `tests/sem-tests/` e compara a saída produzida com a saída esperada, no arquivo `.tpp.sem.out` correspondente (como os `.lex.out` e `.syn.out` das fases anteriores):
 
-    output_file.close()
-
-    print(stdout)
-    print(expected_output)
-
-    return stdout.decode("utf-8") in expected_output
-
-def test_001():
-    assert execute_test("sema-001.tpp") == True
-
-# restante do arquivo foi suprimido.
-
+```bash
+$ pytest tests/tppsema_test.py -v
 ```
 
 A ideia é que em uma _execução normal_ as mensagens de erros sejam recuperadas e impressas na saída padrão (terminal).
@@ -508,12 +497,12 @@ Exemplo de saída para teste com erro em _execução normal_:
 
 [column=0.5]
 
-Arquivo: `sema-001.tpp`
+Arquivo: `tests/sem-tests/sem-test-001.tpp`
 
 ```txt
-{Erro: Função 'principal' não declarada}
-{Aviso: Variável 'a' declarada e não utilizada}
-{Aviso: Variável 'b' declarada e não utilizada}
+{*Erro: Função 'principal' não declarada*}
+{*Aviso: Variável 'a' declarada e não utilizada*}
+{*Aviso: Variável 'b' declarada e não utilizada*}
 
 inteiro: a
 flutuante: b
@@ -522,7 +511,7 @@ flutuante: b
 Execução:
 
 ```bash
-$ python3 tppsema.py tests/sema-001.tpp
+$ python src/tpp_compiler.py --sema sema tests/sem-tests/sem-test-001.tpp
 ```
 
 [column=0.5]
@@ -545,12 +534,12 @@ Exemplo de saída para teste com erros em _execução de testes automatizados_:
 
 [column=0.5]
 
-Arquivo: `sema-001.tpp`
+Arquivo: `tests/sem-tests/sem-test-001.tpp`
 
 ```txt
-{Erro: Função 'principal' não declarada}
-{Aviso: Variável 'a' declarada e não utilizada}
-{Aviso: Variável 'b' declarada e não utilizada}
+{*Erro: Função 'principal' não declarada*}
+{*Aviso: Variável 'a' declarada e não utilizada*}
+{*Aviso: Variável 'b' declarada e não utilizada*}
 
 inteiro: a
 flutuante: b
@@ -559,7 +548,7 @@ flutuante: b
 Execução:
 
 ```bash
-$ python3 tppsema.py -k tests/sema-001.tpp
+$ python src/tpp_compiler.py --sema sema -k tests/sem-tests/sem-test-001.tpp
 ```
 
 [column=0.5]
@@ -574,11 +563,11 @@ WAR-SEM-VAR-DECL-NOT-USED
 
 [/columns]
 
-O arquivo `ErrorMessages.properties` foi atualizado com a seção de erros e avisos para a _Semântica_:
+O arquivo `src/tppsema/SemaErrorMessages.properties` contém a seção de erros e avisos da _Semântica_:
 
 ```text
 [SemaErrors]
-ERR-SEM-USE=Uso: python tppsema.py file.tpp
+ERR-SEM-USE=Uso: python src/tpp_compiler.py --sema sema file.tpp
 ERR-SEM-NOT-TPP=Não é um arquivo .tpp.
 ERR-SEM-FILE-NOT-EXISTS=Arquivo .tpp não existe.
 ERR-SEM-MAIN-NOT-DECL=Função 'principal' não declarada.
@@ -601,7 +590,7 @@ WAR-SEM-ATR-DIFF-TYPES-IMP-COERC-OF-NUM=Atribuição de tipos distintos. Coerç�
 WAR-SEM-ATR-DIFF-TYPES-IMP-COERC-OF-FUNC-ARG=Chamada à função '{}' com Coerção implícita do valor do argumento tipo '{}' diferente do parâmetro declarado '{}'.
 WAR-SEM-FUNC-DECL-NOT-USED=Função '{}' declarada, mas não utilizada.
 WAR-SEM-CALL-REC-FUNC-MAIN=Chamada recursiva para 'principal'.
-ERR-SEM-ARRAY-SIZE-NOT-CONST=Tamanho do arranjo '{}' deve ser uma constante inteira positiva.
+ERR-SEM-INESPERADO=Erro inesperado.
 WAR-SEM-ARRAY-INIT-EXCESS-ELEMS=Elementos excedentes no inicializador de '{}' foram descartados.
 ERR-SEM-ARRAY-INIT-DIM=Inicializador de '{}' tem mais dimensões que o arranjo.
 ERR-SEM-ARRAY-INIT-IN-EXP=Inicializador de arranjo não pode ser usado em uma expressão.
@@ -614,7 +603,7 @@ WAR-SEM-EXP-STMT-NO-EFFECT=Expressão usada como comando não tem efeito.
 WAR-SEM-REL-CHAIN=Comparação encadeada: o resultado de uma comparação é comparado com outro valor.
 ```
 
-Para a regra `**Erro:** *Função principal não declarada.*` foi criada uma chave `ERR-SEM-MAIN-NOT-DECL` com a mensagem no arquivo `ErrorMessages.properties`. Da mesma maneira que nas fases anteriores se passado um parâmetro `-k` os erros apresentados na saída padrão, o terminal, deve apenas imprimir a chave para efeitos de comparação com a saída esperada.
+Para a regra `**Erro:** *Função principal não declarada.*` foi criada uma chave `ERR-SEM-MAIN-NOT-DECL` com a mensagem no arquivo `SemaErrorMessages.properties`. Da mesma maneira que nas fases anteriores se passado um parâmetro `-k` os erros apresentados na saída padrão, o terminal, deve apenas imprimir a chave para efeitos de comparação com a saída esperada.
 
 Na impressão feita pela classe `MyError`, que foi definida no arquivo `myerror.py`, a distinção entre erros e avisos deve ser feita.
 

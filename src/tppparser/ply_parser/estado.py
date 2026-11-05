@@ -21,3 +21,6 @@ check_gentree = False
 
 # Raiz da árvore sintática, definida pela regra programa.
 root = None
+
+# Quantidade de erros de sintaxe encontrados (contados pelo p_error).
+erros_sintaticos = 0

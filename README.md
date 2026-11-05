@@ -15,6 +15,7 @@ tppcompiler-code-start/
 │   ├── README.md                           # Orientações para a documentação (relatório)
 │   ├── LEX-SPECS.md                        # Especificação léxica (Fase 1)
 │   ├── SYN-SPECS.md / SYN-SPECS.pdf        # Especificação sintática (Fase 2)
+│   ├── SEM-SPECS.md                        # Especificação semântica (Fase 3)
 │   ├── grammar/                            # Gramática da linguagem TPP
 │   │   ├── grammar.md                      # Gramática v1.1 e registro de mudanças
 │   │   └── grammar-v1.0.md                 # Gramática original (v1.0)
@@ -36,35 +37,46 @@ tppcompiler-code-start/
 │   │   └── automatalib_lexer/              # Estratégias com automata-lib
 │   │       ├── automatalib_lexer.py        # Versão pura com AFDs formais e Maximal Munch
 │   │       └── automatalibman_lexer.py     # Versão híbrida com herança de ManualDFALexer
-│   └── tppparser/                          # Módulos de análise sintática
-│       ├── __init__.py                     # Factory get_parser e exportações
-│       ├── base.py                         # Classe base abstrata (BaseParser)
-│       ├── mytree.py                       # Nó da árvore sintática (MyNode, sobre anytree)
-│       ├── ParserErrorMessages.properties  # Mensagens de erro sintáticas
-│       └── ply_parser/                     # Estratégia PLY (Yacc, LALR)
-│           ├── ply_parser.py               # PLYParser: monta o parser e gera a árvore
-│           ├── newline_filter.py           # Insere o token NEWLINE entre o lexer e o parser
-│           ├── estado.py                   # Estado compartilhado entre as regras
-│           └── grammar/                    # Regras da gramática, por categoria
-│               ├── program.py              # programa, lista_declaracoes, declaracao, vazio
-│               ├── declarations.py         # Declarações e inicializações de variáveis
-│               ├── functions.py            # Funções: tipos de retorno, cabeçalho, parâmetros
-│               ├── commands.py             # Comandos: bloco, corpo, se, repita, atribuição, E/S
-│               ├── expressions.py          # Expressões, fator, tupla, inicialização de arranjos
-│               └── operators.py            # Operadores relacionais, aditivos, lógicos etc.
+│   ├── tppparser/                          # Módulos de análise sintática
+│   │   ├── __init__.py                     # Factory get_parser e exportações
+│   │   ├── base.py                         # Classe base abstrata (BaseParser)
+│   │   ├── mytree.py                       # Nó da árvore sintática (MyNode, sobre anytree)
+│   │   ├── ParserErrorMessages.properties  # Mensagens de erro sintáticas
+│   │   └── ply_parser/                     # Estratégia PLY (Yacc, LALR)
+│   │       ├── ply_parser.py               # PLYParser: monta o parser e gera a árvore
+│   │       ├── newline_filter.py           # Insere o token NEWLINE entre o lexer e o parser
+│   │       ├── estado.py                   # Estado compartilhado entre as regras
+│   │       └── grammar/                    # Regras da gramática, por categoria
+│   │           ├── program.py              # programa, lista_declaracoes, declaracao, vazio
+│   │           ├── declarations.py         # Declarações e inicializações de variáveis
+│   │           ├── functions.py            # Funções: tipos de retorno, cabeçalho, parâmetros
+│   │           ├── commands.py             # Comandos: bloco, corpo, se, repita, atribuição, E/S
+│   │           ├── expressions.py          # Expressões, fator, tupla, inicialização de arranjos
+│   │           └── operators.py            # Operadores relacionais, aditivos, lógicos etc.
+│   └── tppsema/                            # Módulos de análise semântica (Fase 3)
+│       ├── __init__.py                     # Factory get_sema e exportações
+│       ├── base.py                         # Classe base abstrata (BaseSema)
+│       ├── SemaErrorMessages.properties    # Mensagens de erro semânticas
+│       └── sema/                           # Estratégia padrão ("sema")
+│           ├── tppsema.py                  # TPPSema: aplica as regras e devolve a árvore podada
+│           ├── symbol_table.py             # Tabela de símbolos
+│           ├── pruning.py                  # Poda da árvore sintática (ASA)
+│           └── rules/                      # Regras semânticas, por categoria do SEM-SPECS
 ├── tests/                                  # Suíte de testes e benchmarks
-│   ├── conftest.py                         # Configuração do Pytest (opções --lexer e --parser)
+│   ├── conftest.py                         # Configuração do Pytest (opções --lexer, --parser e --sema)
 │   ├── tpplex_test.py                      # Testes funcionais da fase léxica (42 testes)
 │   ├── tppparser_test.py                   # Testes funcionais da fase sintática (84 testes)
+│   ├── tppsema_test.py                     # Testes funcionais da fase semântica (23 testes)
 │   ├── test_extensoes_gramatica.py         # Testes das extensões da gramática v1.1
 │   ├── test_perf_large_tokens.py           # Testes de performance e integridade léxica
 │   ├── benchmark_lexers.py                 # Script CLI de benchmark e profiling comparativo
 │   ├── lex-tests/                          # Casos de teste (.tpp) e saídas de referência (.lex.out)
-│   └── syn-tests/                          # Casos de teste (.tpp) e saídas de referência (.syn.out)
+│   ├── syn-tests/                          # Casos de teste (.tpp) e saídas de referência (.syn.out)
+│   └── sem-tests/                          # Casos de teste (.tpp) e saídas de referência (.sem.out)
 └── requirements.txt                        # Dependências do projeto
 ```
 
-As análises semântica (`src/tppsema/`) e de geração de código (`src/tppcodegen/`), com seus testes, serão adicionadas nas próximas fases.
+A geração de código (`src/tppcodegen/`), com seus testes, será adicionada na próxima fase.
 
 ## Instalação dos Requisitos
 
