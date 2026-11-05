@@ -142,7 +142,7 @@ git fetch upstream
 
 2. Siga a estrutura fornecida para desenvolver o trabalho, pois será a mesma estrutura que deverá ser entregue ao final do projeto. Nas outras fases iremos adicionar outras partes do projeto nesse repositório.
 
-Se a obtenção do código da nova fase funcionou, o diretório: `src/tppparser/` foi adicionado ao repostório do seu projeto, é nesse diretório que tem os arquivos que você irá trabalhar na análise sintática. Ao terminar a implementação envie para o seu `github`, conforme o @lst:comandos:envio.
+Se a obtenção do código da nova fase funcionou, o diretório: `src/tppparser/` foi adicionado ao repositório do seu projeto, é nesse diretório que tem os arquivos que você irá trabalhar na análise sintática. Ao terminar a implementação envie para o seu `github`, conforme o @lst:comandos:envio.
 
 ```{#lst:comandos:envio .bash caption="Comandos de envio para o github"}
 git add .
@@ -696,35 +696,31 @@ Deverá ser especificado na entrega o mecanismo de execução do *parser* para a
 
 **Obs.:** Favor utilizar ZIP como forma de compactação.
 
-## Leitura Recomendada {.allowframebreaks}
+## Leitura Recomendada
 
+> [!IMPORTANT]
+> **Leitura Recomendada**
+> 
+>__Capítulo 3: Gramáticas Livres de Contexto e Análise Sintática__
+>
+>**Livro**: [`LOUDEN, Kenneth C. Compiladores: principios e praticas. Sao Paulo, SP: Thomson, c2004. xiv, 569 p. ISBN 8522104220.`](https://integrada.minhabiblioteca.com.br/reader/books/9788522128532/pageid/109)
 
-[alertblock]{Leitura Recomendada}
+> [!IMPORTANT]
+> **Leitura Recomendada**
+> 
+>__Capítulo 3: Análise Sintática__
+>
+>**Livro**: [`AHO, Alfred V. et al. Compiladores: principios, tecnicas e ferramentas. 2. ed. Sao Paulo, SP: Pearson Addison-Wesley, 2008. x, 634 p. ISBN 9788588639249.`](https://integrada.minhabiblioteca.com.br/#/books/9788588639249/pageid/122)
 
-__Capítulo 3: Gramáticas Livres de Contexto e Análise Sintática__
-
-**Livro**: [`LOUDEN, Kenneth C. Compiladores: principios e praticas. Sao Paulo, SP: Thomson, c2004. xiv, 569 p. ISBN 8522104220.`](https://integrada.minhabiblioteca.com.br/reader/books/9788522128532/pageid/109)
-
-[/alertblock]
-
-[exampleblock]{Leitura Recomendada}
-
-__Capítulo 3: Análise Sintática__
-
-**Livro**: [`AHO, Alfred V. et al. Compiladores: principios, tecnicas e ferramentas. 2. ed. Sao Paulo, SP: Pearson Addison-Wesley, 2008. x, 634 p. ISBN 9788588639249.`](https://integrada.minhabiblioteca.com.br/#/books/9788588639249/pageid/122)
-
-[/exampleblock]
-
-[block]{Leitura Recomendada}
-
-__Capítulo 3: Analisadores Sintáticos (Parsers)__
-
-**Livro**: [`COOPER, Keith D.; TORCZON, Linda. Construindo compiladores. Rio de Janeiro, RJ: Elsevier/Campus, 2014. xxiv, 656 p. ISBN 9788535255645. Disponível em: https://research.ebsco.com/linkprocessor/plink?id=debd0a1f-ba89-3ee8-b0a1-2c929486cc51. Acesso em: 12 mar. 2024.`](https://integrada.minhabiblioteca.com.br/#/books/9781558606982/pageid/69)
-
-[/block]
+> [!IMPORTANT]
+> **Leitura Recomendada**
+> 
+>__Capítulo 3: Analisadores Sintáticos (Parsers)__
+>
+>**Livro**: [`COOPER, Keith D.; TORCZON, Linda. Construindo compiladores. Rio de Janeiro, RJ: Elsevier/Campus, 2014. xxiv, 656 p. ISBN 9788535255645. Disponível em: https://research.ebsco.com/linkprocessor/plink?id=debd0a1f-ba89-3ee8-b0a1-2c929486cc51. Acesso em: 12 mar. 2024.`](https://integrada.minhabiblioteca.com.br/#/books/9781558606982/pageid/69)
 
 ## _Word Cloud_
 
 ![](figuras/syn-specs.md.wordcloud.png){ width=100% }
 
-## Referências {.fragile .allowframebreaks}
+## Referências

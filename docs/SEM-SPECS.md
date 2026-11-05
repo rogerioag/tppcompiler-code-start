@@ -15,32 +15,6 @@ Como entrada para a _Análise Semântica_ temos a Árvore Sintática Abstrata (A
 
 O principal motivo da Análise Semântica é verificar se existem erros de contexto para a linguagem. Um conjunto de Regras Semânticas devem ser verificadas.
 
-## Instruções Gerais
-
-1. Faça _download_ do arquivo do modelo de estrutura do trabalho e relatório disponível na página da disciplina no moodle. Descompacte e trabalhe nos arquivos e estrutura fornecida, pois será a mesma estrutura que deverá ser entregue ao final do projeto.
-
-2. Siga a estrutura fornecida para desenvolver o trabalho.
-
-3. O relatório deve ter a descrição do trabalho e dos programas, o código fonte dos programas, uma explicação sobre o funcionamento do programa, o processo de tradução com exemplos de instruções dos três formatos e um exemplo de execução do seu programa reproduzindo a saída gerada.
-
-4. Deverão ser entregues:
-	a) O código fonte dos programas.
-	b) Relatório em **pdf** que pode ser feito no formato do `LibreOffice` ou no `Latex`.
-
-5. O projeto deve seguir a estrutura de diretórios e arquivos, disponível no formato. A estrutura do projeto é apresentada na Figura \ref{fig:formato:entrega}.
-
-![Formato de Entrega \label{fig:formato:entrega}](figuras/estrutura-diretorios.pdf)
-
-## Implementação
-
-Com as Análises Léxica e Sintática já concluídas, iremos realizar a verificação das __Regras Semânticas__ e espera-se ter como saída uma Árvore Sintática Abstrata (AST) podada.
-
-A implementação da _Análise Semântica_ deverá ser realizando utilizando o mesmo conjunto de ferramentas compatíveis utilizado na Análise Léxica e Análise Sintática. O código base para a implementação está disponível no link [Código Start da Semântica no Github Classroom](https://moodle.utfpr.edu.br/mod/url/view.php?id=1733895) do Moodle.
-
-Para a terceira parte do trabalho, a **AST** deve ser percorrida utilizando as informações da _Tabela de Símbolos_ iniciada na Análise Sintática. A análise semântica consiste da "segunda passada" do compilador no código, pois o código fonte é novamente analisado desde o início na **AST**, porém agora para realizar a sua anotação de atributos. A tabela de símbolos deve ser gerada/atualizada por meio das estratégias apresentadas em sala de aula.
-
-O principal motivo da **Análise Semântica** é verificar se existem erros de contexto para a linguagem **TPP** apresentada na primeira e segunda parte deste trabalho.
-
 ## Regras Semânticas
 
 As **Regras Semânticas** que precisam ser verificadas para a identicação de erros semânticos ou de contexto são:
@@ -179,7 +153,7 @@ As **Regras Semânticas** que precisam ser verificadas para a identicação de e
 	Por exemplo, uma variável `a` recebe uma expressão `b + c`. Os tipos declarados para `a` e o tipo resultado da inferência do tipo da expressão `b + c` deverão ser compatíveis. Se `b` for `inteiro` e `c` for `inteiro`, o tipo resultante da expressão será também `inteiro`.
 	
 	Se assumirmos, por exemplo, que `b` é do tipo `inteiro` e `c` do tipo `flutuante`, o resultado pode ser `flutuante` (se assumirmos isso para nossa linguagem). O que faria a atribuição `a := b + c` apresentar tipos diferentes e a mensagem deve ser apresentada:
-
+	
 	__Tipo:__ Aviso.
 	
 	__Chave:__ `WAR-SEM-ATR-DIFF-TYPES-IMP-COERC-OF-EXP`
@@ -396,7 +370,57 @@ Uma ideia de _Tabela de Símbolos_ pode ser vista na tabela:
 | ---- | ---- | ---- | ---- | ---- | ---- | ------ | ---- | ---- | ---- |
 |      |      |      |      |      |      |        |      |      |      |
 
+## Instruções Gerais
 
+1. Para obter o código inicial para a terceira fase, __Análise Semântica__. Se não fez a configuração do repositório oficial do professor como `upstream` na primeira parte, faça a configuração. Esse configuração deve ser feita apenas uma vez, conforme o @lst:comandos:iniciais.
+
+```{#lst:comandos:iniciais .bash caption="Comandos de configuração do repositório"}
+# Conectar o repositório oficial do professor como 'upstream'.
+git remote add upstream https://github.com/rogerioag/tppcompiler-code-start.git
+
+# Obter os arquivos para a fase 3, Análise Semântica.
+git fetch upstream
+git merge upstream/main -m "Merge upstream Fase 3 - Semântico"
+git push origin main
+```
+
+2. Siga a estrutura fornecida para desenvolver o trabalho, pois será a mesma estrutura que deverá ser entregue ao final do projeto. Na última fase iremos adicionar outras partes do projeto nesse repositório.
+
+Se a obtenção do código da nova fase funcionou, o diretório: `src/tppsema/` foi adicionado ao repositório do seu projeto, é nesse diretório que tem os arquivos que você irá trabalhar na análise semântica. Ao terminar a implementação envie para o seu `github`, conforme o @lst:comandos:envio.
+
+```{#lst:comandos:envio .bash caption="Comandos de envio para o github"}
+git add .
+git commit -m "feat: Implementação da Análise Semântica"
+git push origin main
+```
+
+3. Após o envio para o seu `github`, acesse o link <https://github.com/<seulogin-github/tppcompiler-seulogin-github/actions> e verifique o resultado da execução dos testes. Se algum teste falhar, corrija o problema e repita o processo. Os testes podem ser executados localmente com o comando: `pytest -v tests/tppsema_test.py`.
+
+4. Prepare o relatório com a descrição do trabalho e da implementação e exemplos de entrada e saída gerada pelo Analisador Semântico.
+
+5. Deverá ser entregue o repositório compactado via moodle, conforme descrito na [Seção @sec:tpp:doc:entrega]. Com o código fonte da implementação completa e o relatório em **pdf** no formato de artigo conforme o modelo descrito na [Seção @sec:tpp:doc:entrega].
+
+6. O projeto deve seguir a estrutura de diretórios e arquivos, disponível no repositório.
+
+7. O relatório dessa segunda fase, deve conter o conteúdo das partes, Análise Léxica e Sintática,  e conteúdo relacionado a esta terceira fase, Análise Semântica, incluindo exemplos de entrada e saída gerada pelo Analisador Semântico.
+
+8. Deverão ser entregues:
+   a) O código fonte da implementação.
+   b) Relatório em **pdf** que pode ser feito no formato do `LibreOffice` ou no `Latex`.
+
+9. O projeto deve seguir a estrutura de diretórios e arquivos, disponível no formato. A estrutura do projeto é apresentada na Figura \ref{fig:formato:entrega}.
+
+![Formato de Entrega \label{fig:formato:entrega}](figuras/estrutura-diretorios.pdf)
+
+## Implementação
+
+Com as Análises Léxica e Sintática já concluídas, iremos realizar a verificação das __Regras Semânticas__ e espera-se ter como saída uma Árvore Sintática Abstrata (AST) podada.
+
+A implementação da _Análise Semântica_ deverá ser realizando utilizando o mesmo conjunto de ferramentas compatíveis utilizadas na Análise Léxica e Análise Sintática. O código base para a implementação está disponível no link [Código de Start](https://moodle.utfpr.edu.br/mod/url/view.php?id=1733830) do Moodle.
+
+Para a terceira parte do trabalho, a **AST** deve ser percorrida utilizando as informações da _Tabela de Símbolos_ iniciada na Análise Sintática. A análise semântica consiste da _"segunda passada"_ do compilador no código, pois o código fonte é novamente analisado desde o início na **AST**, porém agora para realizar a sua anotação de atributos. A tabela de símbolos deve ser gerada/atualizada por meio das estratégias apresentadas em sala de aula.
+
+O principal motivo da **Análise Semântica** é verificar se existem erros de contexto para a linguagem **TPP** apresentada na primeira e segunda parte deste trabalho.
 
 
 ## Árvore Sintática Abstrata
@@ -407,11 +431,13 @@ Tomemos como exemplo uma atribuição ``a := b + c - d``, de acordo com a sintax
 
 ![Atribuição expandida \label{fig:atribuicao}](figuras/figura-atribuica.png){#id .class width=90% height=90%}
 
-Após a verificação das regras semânticas, pode-se fazer uma poda dos nós internos da árvore para facilitar a geração de código. A Figura \ref{fig:atribuicao:poda} apresenta a Árvore Sintática Abstrata simplificada: a subtração é a raiz da expressão, porque ``b + c`` é calculado primeiro.
+Após a verificação das regras semânticas, pode-se fazer uma poda dos nós internos da árvore para facilitar a geração de código. A Figura \ref{fig:atribuicao:poda} apresenta a __Árvore Sintática Abstrata Simplificada/Podada__. 
+
+A simplificação da árvore irá facilitar a fase de Geração de Código. No caso da _atribuição_ o filho à esquerda `a` é a variável que irá receber o _store_, a subárvore do lado direito terá a subárvore com expressão. Descendo mais à esquerda, carrega-se o valor de `b`, visitando o nó à direita carrega-se o valor de `c` e então ao retornar para o pai `(+)` calcula-se a adição de `b` e `c`. Com a subárvore à esquerda de `(-)` resolvida, visita-se o lado direito e carrega-se o valor de `d`, voltando-se ao nó `(-)` a subtração é calculada com o resultado da expressão ``b + c`` e o valor de `d`.
 
 ![Atribuição depois da poda \label{fig:atribuicao:poda}](figuras/figura-atribuica-asa.png){#id .class width=30% height=30%}
 
-O Código que deve ser gerado para uma ``atribuicao`` é apresentado no Código:
+O Código que será gerado na próxima fase para uma ``atribuicao`` é apresentado no Código:
 
 ```.llvm
   %2 = load i32, i32* @b, align 4
@@ -567,9 +593,6 @@ O arquivo `src/tppsema/SemaErrorMessages.properties` contém a seção de erros 
 
 ```text
 [SemaErrors]
-ERR-SEM-USE=Uso: python src/tpp_compiler.py --sema sema file.tpp
-ERR-SEM-NOT-TPP=Não é um arquivo .tpp.
-ERR-SEM-FILE-NOT-EXISTS=Arquivo .tpp não existe.
 ERR-SEM-MAIN-NOT-DECL=Função 'principal' não declarada.
 ERR-SEM-VAR-NOT-DECL=Variável '{}' não declarada.
 WAR-SEM-VAR-DECL-NOT-INIT=Variável '{}' declarada e não inicializada.
@@ -621,23 +644,25 @@ O relatório deve ser escrito no formato de artigo[^2] disponível no [link](htt
 
 ## Avaliação
 
-Será avaliado se a análise sensível ao contexto executa a saída proposta (ASTO) e se todos os erros e *warnings* semânticos são mostrados corretamente para um exemplo simples escrito pelo professor/aluno. O essencial da linguagem deve ser mantido (conforme especificado no primeiro trabalho) para que o mesmo exemplo funcione para testar todos os trabalhos com o mínimo de alteração.
+Será avaliado se a análise semântica executa e se todos os erros e *warnings* semânticos são mostrados corretamente para os exemplos de testes. 
 
-* Serão avaliados, dentre outros critérios:
-	a) Da implementação:
+Serão avaliados, dentre outros critérios:
 
-		- O funcionamento do programa.
-		- O capricho e a organização na elaboração do projeto.
-		- A corretude da implementação em relação ao que foi pedido no trabalho.
-		- A colocação em prática dos conceitos que foram discutidos em sala de aula de forma correta.
-		- A qualidade do projeto e da implementação (descrição e elaboração do projeto e o passo a passo da implementação).
+a) Da implementação:
 
- 	b) Do relatório:
+* O funcionamento do programa.
+* O capricho e a organização na elaboração do projeto.
+* A corretude da implementação em relação ao que foi pedido no trabalho.
+* A colocação em prática dos conceitos que foram discutidos em sala de aula de forma correta.
+* A qualidade do projeto e da implementação (descrição e elaboração do projeto e o passo a passo da implementação).
+	
 
-		- O conteúdo e a forma que foi apresentado, se o formato é o mesmo solicitado.
-		- Organização das ideias e do processo de tradução.
-		- O capricho na elaboração e na formatação do texto, bem como o conteúdo do texto.
-
+b) Do relatório:
+	
+* O conteúdo e a forma que foi apresentado, se o formato é o mesmo solicitado.
+* Organização das ideias e do processo de tradução.
+* O capricho na elaboração e na formatação do texto, bem como o conteúdo do texto.
+	
 * Não serão avaliados os trabalhos:
 	a) Que chegarem fora do prazo.
  	b) Que não forem feitos nas ferramentas solicitadas.
@@ -649,49 +674,41 @@ Será avaliado se a análise sensível ao contexto executa a saída proposta (AS
 
 * Não se esqueça que o trabalho vale **10,0**  e contribui para o cálculo da nota final.
 
+
+
 ## Entrega e apresentação
 
-O trabalho será **individual** e deverá ser entregue até o dia **09/06/2026** no moodle da disciplina em um pacote compactado e apresentado no mesmo dia. A estrutura do projeto com os arquivos do projeto (fonte e relatório) deve ser compactada (zipados) e o arquivo compactado deve ser enviado pelo moodle utilizando a opção de submissão "Trabalho 3a. parte - Análise Semântica", o nome do arquivo compactado deve seguir o padrão de nomes do formato.
+O trabalho será **individual** e deverá ser entregue até o dia **19/11/2026** no moodle da disciplina em um pacote compactado e apresentado no mesmo dia. A estrutura do projeto com os arquivos do projeto (fonte e relatório) deve ser compactada (zipados) e o arquivo compactado deve ser enviado pelo moodle utilizando a opção de submissão "Trabalho 3a. parte - Análise Semântica", o nome do arquivo compactado deve seguir o padrão de nomes do formato.
 
 Deverá ser especificado na entrega o mecanismo de execução da varredura para a realização da correção.
 
-**Obs.:** Favor utilizar ZIP como forma de compactação. O Relatório deve ser entregue impresso, no horário da aula, para o professor.
-
+**Obs.:** Favor utilizar ZIP como forma de compactação.
 
 ## Leitura Recomendada {.allowframebreaks}
-\normalsize
 
-<!--
+> [!IMPORTANT]
+> **Leitura Recomendada**
+> 
+>__Capítulo 6: Análise Semântica, Seção 6.3. A Tabela de Símbolos.__
+>
+> **Livro**: [```LOUDEN, Kenneth C. Compiladores: princípios e práticas. São Paulo, SP: Thomson, c2004. xiv, 569 p. ISBN 8522104220.```](https://integrada.minhabiblioteca.com.br/reader/books/8522104220/pageid/311)
 
-[alertblock]{Leitura Recomendada}
+> [!IMPORTANT]
+> **Leitura Recomendada**
+> 
+>__Capítulo 2: Um tradutor simples dirigido por Sintaxe. Seção 2.7 -- Tabela de Símbolos__
+>
+>**Livro**: [`AHO, Alfred V. et al. Compiladores: princípios, técnicas e ferramentas. 2. ed. São Paulo, SP: Pearson Addison-Wesley, 2008. x, 634 p. ISBN 9788588639249.`](https://integrada.minhabiblioteca.com.br/#/books/9788588639249/pageid/25)
 
-__Capítulo 3: Gramáticas Livres de Contexto e Análise Sintática__
-
-**Livro**: [`LOUDEN, Kenneth C. Compiladores: principios e praticas. Sao Paulo, SP: Thomson, c2004. xiv, 569 p. ISBN 8522104220.`](https://integrada.minhabiblioteca.com.br/reader/books/9788522128532/pageid/109)
-
-[/alertblock]
-
-
-
-[exampleblock]{Leitura Recomendada}
-
-__Capítulo 3: Análise Sintática__
-
-**Livro**: [`AHO, Alfred V. et al. Compiladores: principios, tecnicas e ferramentas. 2. ed. Sao Paulo, SP: Pearson Addison-Wesley, 2008. x, 634 p. ISBN 9788588639249.`](https://integrada.minhabiblioteca.com.br/#/books/9788588639249/pageid/122)
-
-[/exampleblock]
-
-[block]{Leitura Recomendada}
-
-__Capítulo 3: Analisadores Sintáticos (Parsers)__
-
-**Livro**: [`COOPER, Keith D.; TORCZON, Linda. Construindo compiladores. Rio de Janeiro, RJ: Elsevier/Campus, 2014. xxiv, 656 p. ISBN 9788535255645. Disponível em: https://research.ebsco.com/linkprocessor/plink?id=debd0a1f-ba89-3ee8-b0a1-2c929486cc51. Acesso em: 12 mar. 2024.`](https://integrada.minhabiblioteca.com.br/#/books/9781558606982/pageid/69)
-
-[/block]
--->
+> [!IMPORTANT]
+> **Leitura Recomendada**
+> 
+>__Capítulo 4: Análise Sensível ao Contexto__
+>
+>**Livro**: [`COOPER, Keith D.; TORCZON, Linda. Construindo compiladores. Rio de Janeiro, RJ: Elsevier/Campus, 2014. xxiv, 656 p. ISBN 9788535255645. Disponível em: https://research.ebsco.com/linkprocessor/plink?id=debd0a1f-ba89-3ee8-b0a1-2c929486cc51. Acesso em: 12 mar. 2024.`](https://integrada.minhabiblioteca.com.br/#/books/9788535255645/pageid/141)
 
 ## _Word Cloud_
 
-![](figuras/trabalho-02.md.wordcloud.png){ width=100% }
+![](figuras/sem-specs.md.wordcloud.png){ width=100% }
 
 ## Referências {.fragile .allowframebreaks}
