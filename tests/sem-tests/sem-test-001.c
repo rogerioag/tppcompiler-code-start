@@ -1,0 +1,2 @@
+int a;
+float b;
