@@ -65,7 +65,7 @@ class PLYParser(BaseParser):
         Analisa source_code e retorna a árvore sintática.
 
         relatorio: imprime o resumo da análise (WAR-SYN-ANA-SUCCESS, ERR-SYN-IRRECUPERAVEL...).
-        Quando a análise sintática é uma etapa intermediária (--sema, --gencode), a CLI
+        Quando a análise sintática é uma etapa intermediária (--sema, --codegen), a CLI
         passa relatorio=False; os erros de sintaxe continuam sendo impressos.
         Depois da análise, self.erros tem a quantidade de erros de sintaxe.
         """

@@ -27,6 +27,13 @@ def pytest_addoption(parser):
         choices=["all", "sema"],
         help="Especifica qual analisador semântico testar: sema ou all (padrão: sema)",
     )
+    parser.addoption(
+        "--codegen",
+        action="store",
+        default="llvm",
+        choices=["all", "llvm"],
+        help="Especifica qual gerador de código testar: llvm ou all (padrão: llvm)",
+    )
 
 def pytest_collection_modifyitems(config, items):
     lexer = config.getoption("--lexer")

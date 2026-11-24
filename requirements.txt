@@ -2,3 +2,4 @@ pytest
 ply
 configparser
 logging
+llvmlite

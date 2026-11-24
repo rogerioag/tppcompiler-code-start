@@ -5,8 +5,6 @@
 
 > __Resumo:__ _Este documento apresenta a especificação da 2a. parte do trabalho de implementação da disciplina. O objetivo nessa etapa é projetar e implementar a fase de __Análise Semântica__ do compilador para a linguagem __TPP__._
 
-
-
 # Análise Semântica
 
 A __Análise Semântica__ consiste em uma _"segunda passada"_ do compilador no código, pois o código fonte é novamente analisado desde o início na **AST**, porém agora para realizar a anotação de atributos, inferência de tipos e verificações se as construções sintáticas fazem algum sentido para a linguagem.
@@ -478,7 +476,7 @@ Alguns casos de testes estão disponíveis no moodle institucional junto com ess
 * __Sema:__ programa de exemplo `TPP` de **entrada** na linha de comando. 
 * __Saída:__ Árvore Podada ou uma lista de erros que foram identificados.
 
-No [Código Start da Semântica no Github Classroom](https://moodle.utfpr.edu.br/mod/url/view.php?id=1733895) tem um diretório `tests` com os testes para a _Análise Semântica_.
+No [Código Start da Semântica no Github](https://moodle.utfpr.edu.br/mod/url/view.php?id=1733895) tem um diretório `tests` com os testes para a _Análise Semântica_.
 
 É necessário desenvolver a parte semântica e fazer o tratamento de erros. Está sendo disponibilizado uma classe de tratamento de erros que será utilizada em todas as fases do projeto, a `myerror.py` que carrega uma lista de erros composta por pares (chave:valor) formada por _códigos de erros_ e as _mensagens de erros_ correspondentes.
 
@@ -684,7 +682,7 @@ Deverá ser especificado na entrega o mecanismo de execução da varredura para 
 
 **Obs.:** Favor utilizar ZIP como forma de compactação.
 
-## Leitura Recomendada {.allowframebreaks}
+## Leitura Recomendada
 
 > [!IMPORTANT]
 > **Leitura Recomendada**
@@ -711,4 +709,4 @@ Deverá ser especificado na entrega o mecanismo de execução da varredura para 
 
 ![](figuras/sem-specs.md.wordcloud.png){ width=100% }
 
-## Referências {.fragile .allowframebreaks}
+## Referências

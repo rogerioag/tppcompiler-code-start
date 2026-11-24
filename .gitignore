@@ -227,5 +227,9 @@ tests/syn-tests/*ascii_tree.txt
 tests/syn-tests/*.syn..out
 tests/syn-tests/lex.log
 
+# Artefatos gerados pelos testes de geração de código (.ll e executáveis; preserva .ll.out e .ll.exe.out)
+tests/codegen-tests/*.tpp.ll
+tests/codegen-tests/*.tpp.ll.exe
+
 # Arquivos de bloqueio do LibreOffice
 .~lock.*#

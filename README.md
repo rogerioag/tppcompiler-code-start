@@ -21,7 +21,7 @@ tppcompiler-code-start/
 │   │   └── grammar-v1.0.md                 # Gramática original (v1.0)
 │   └── figuras/                            # Figuras e scripts usados nas especificações
 ├── src/                                    # Código-fonte do compilador
-│   ├── tpp_compiler.py                     # Script principal da CLI (--lexer, --parser, --sema, --gencode)
+│   ├── tpp_compiler.py                     # Script principal da CLI (--lexer, --parser, --sema, --codegen)
 │   ├── myerror.py                          # Gerenciador de erros e mensagens
 │   ├── GlobalErrorMessages.properties      # Mensagens de erro globais
 │   ├── tpplexer/                           # Módulos e estratégias de análise léxica
@@ -53,30 +53,38 @@ tppcompiler-code-start/
 │   │           ├── commands.py             # Comandos: bloco, corpo, se, repita, atribuição, E/S
 │   │           ├── expressions.py          # Expressões, fator, tupla, inicialização de arranjos
 │   │           └── operators.py            # Operadores relacionais, aditivos, lógicos etc.
-│   └── tppsema/                            # Módulos de análise semântica (Fase 3)
-│       ├── __init__.py                     # Factory get_sema e exportações
-│       ├── base.py                         # Classe base abstrata (BaseSema)
-│       ├── SemaErrorMessages.properties    # Mensagens de erro semânticas
-│       └── sema/                           # Estratégia padrão ("sema")
-│           ├── tppsema.py                  # TPPSema: aplica as regras e devolve a árvore podada
-│           ├── symbol_table.py             # Tabela de símbolos
-│           ├── pruning.py                  # Poda da árvore sintática (ASA)
-│           └── rules/                      # Regras semânticas, por categoria do SEM-SPECS
+│   ├── tppsema/                            # Módulos de análise semântica (Fase 3)
+│   │   ├── __init__.py                     # Factory get_sema e exportações
+│   │   ├── base.py                         # Classe base abstrata (BaseSema)
+│   │   ├── SemaErrorMessages.properties    # Mensagens de erro semânticas
+│   │   └── sema/                           # Estratégia padrão ("sema")
+│   │       ├── tppsema.py                  # TPPSema: aplica as regras e devolve a árvore podada
+│   │       ├── symbol_table.py             # Tabela de símbolos
+│   │       ├── pruning.py                  # Poda da árvore sintática (ASA)
+│   │       └── rules/                      # Regras semânticas, por categoria do SEM-SPECS
+│   └── tppcodegen/                         # Módulos de geração de código (Fase 4)
+│       ├── __init__.py                     # Factory get_codegen e exportações
+│       ├── base.py                         # Classe base abstrata (BaseCodeGen)
+│       ├── CodeGenErrorMessages.properties # Mensagens de erro/aviso da geração de código
+│       └── llvm/                           # Estratégia padrão ("llvm")
+│           ├── tppcodegen.py               # LLVMCodeGen: coordena a geração LLVM-IR e salva .ll
+│           ├── context.py                  # ContextoLLVM: módulo, IRBuilder, tipos e escopos
+│           └── emitters/                   # Emissores LLVM-IR por categoria (declarações, funções, comandos, expressões, E/S)
 ├── tests/                                  # Suíte de testes e benchmarks
-│   ├── conftest.py                         # Configuração do Pytest (opções --lexer, --parser e --sema)
+│   ├── conftest.py                         # Configuração do Pytest (opções --lexer, --parser, --sema e --codegen)
 │   ├── tpplex_test.py                      # Testes funcionais da fase léxica (42 testes)
 │   ├── tppparser_test.py                   # Testes funcionais da fase sintática (84 testes)
 │   ├── tppsema_test.py                     # Testes funcionais da fase semântica (23 testes)
+│   ├── tppcodegen_test.py                  # Testes funcionais da fase de geração de código (.codegen.out, llvm-diff e execução)
 │   ├── test_extensoes_gramatica.py         # Testes das extensões da gramática v1.1
 │   ├── test_perf_large_tokens.py           # Testes de performance e integridade léxica
 │   ├── benchmark_lexers.py                 # Script CLI de benchmark e profiling comparativo
 │   ├── lex-tests/                          # Casos de teste (.tpp) e saídas de referência (.lex.out)
 │   ├── syn-tests/                          # Casos de teste (.tpp) e saídas de referência (.syn.out)
-│   └── sem-tests/                          # Casos de teste (.tpp) e saídas de referência (.sem.out)
+│   ├── sem-tests/                          # Casos de teste (.tpp) e saídas de referência (.sem.out)
+│   └── codegen-tests/                      # Casos de teste (.tpp) e referências (.codegen.out, .ll.out, .ll.exe.out)
 └── requirements.txt                        # Dependências do projeto
 ```
-
-A geração de código (`src/tppcodegen/`), com seus testes, será adicionada na próxima fase.
 
 ## Instalação dos Requisitos
 
@@ -110,7 +118,7 @@ O ponto de entrada principal da `CLI` é o _script_ `src/tpp_compiler.py`.
 ```bash
 [tppcompiler-code-start]$ python src/tpp_compiler.py --help
 usage: tpp_compiler.py [-h] [--lexer {ply,mandfa,symtable,symtableman,automatalib,automatalibman}] [--parser {yacc,topdown}] [--sema {sema}]
-                       [--gencode {llvm}] [-k]
+                       [--codegen {llvm}] [-k]
                        fonte
 
 Compilador TPP [tppc]
@@ -126,7 +134,7 @@ options:
                         Estratégia Sintática
   --sema, --semantic {sema}
                         Estratégia Semântica
-  --gencode, --codegen {llvm}
+  --codegen, --gencode {llvm}
                         Estratégia de Geração de Código
   -k                    Imprimir chaves de Erro.
 [tppcompiler-code-start]$  
@@ -140,7 +148,7 @@ options:
 | `--lexer` | Opção | `ply` | Estratégia de análise léxica: `ply`, `mandfa` (DFA manual), `symtable` / `symtableman` (com Tabela de Símbolos), `automatalibman` (com herança de ManualDFALexer) ou `automatalib` (DFA puro automata-lib com Maximal Munch). |
 | `--parser` | Opção | `yacc` | Estratégia de análise sintática: `yacc` _(botton up)_ ou `topdown` (análise descendente). |
 | `--sema`, `--semantic` | Opção | `default` | Estratégia de análise semântica. |
-| `--gencode`, `--codegen` | Opção | `llvm` | Estratégia de geração de código intermediário/final (ex.: `llvm`, gera `LLVM-IR`). |
+| `--codegen`, `--gencode` | Opção | `llvm` | Estratégia de geração de código intermediário/final (ex.: `llvm`, gera `LLVM-IR`). |
 | `-k` | Flag | `False` | Imprime apenas as **chaves dos erros** (ex.: `ERR-GLOB-USE`, `ERR-LEX-INV-CHAR`) em vez das mensagens completas formatadas. Útil para testes automatizados. Chaves de erros são semelhantes a _tokens_. |
 | `-h`, `--help` | Flag | - | Exibe o menu de ajuda com todas as opções disponíveis. |
 

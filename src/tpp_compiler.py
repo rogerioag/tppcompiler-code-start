@@ -12,6 +12,7 @@ from src.myerror import MyError
 from src.tpplexer import get_lexer
 from src.tppparser import get_parser
 from src.tppsema import get_sema
+from src.tppcodegen import get_codegen
 
 import logging
 logging.basicConfig(
@@ -29,13 +30,13 @@ reduced_syntax_tree = None
 # Etapas do compilador, em ordem. A última etapa passada na linha de comando
 # define até onde a compilação vai; as anteriores executam com a estratégia
 # passada ou, se omitida, com a estratégia padrão.
-ETAPAS = ["lexer", "parser", "sema", "gencode"]
-ESTRATEGIAS_PADRAO = {"lexer": "ply", "parser": "yacc", "sema": "sema", "gencode": "llvm"}
+ETAPAS = ["lexer", "parser", "sema", "codegen"]
+ESTRATEGIAS_PADRAO = {"lexer": "ply", "parser": "yacc", "sema": "sema", "codegen": "llvm"}
 OPCOES_ETAPAS = {
     "lexer": ("--lexer",),
     "parser": ("--parser",),
     "sema": ("--sema", "--semantic"),
-    "gencode": ("--gencode", "--codegen"),
+    "codegen": ("--codegen", "--gencode"),
 }
 
 
@@ -49,11 +50,13 @@ def etapa_final(argv):
 
 
 def tratador_de_erros(etapa):
-    """Mensagens de uso/arquivo: chaves ERR-SYN-* na análise sintática, ERR-GLOB-* nas demais."""
+    """Mensagens de uso/arquivo por etapa (ERR-SYN, ERR-SEM, ERR-CODEGEN ou ERR-GLOB)."""
     if etapa == "parser":
         return MyError('ParserErrors'), 'ERR-SYN'
     if etapa == "sema":
         return MyError('SemaErrors'), 'ERR-SEM'
+    if etapa == "codegen":
+        return MyError('CodeGenErrors'), 'ERR-CODEGEN'
     return MyError('GlobalErrors'), 'ERR-GLOB'
 
 
@@ -80,7 +83,7 @@ def main():
     cli.add_argument("--lexer", choices=["ply", "mandfa", "symtable", "symtableman", "automatalib", "automatalibman"], default=None, help="Estratégia Léxica (padrão: ply)")
     cli.add_argument("--parser", choices=["yacc", "topdown"], default=None, help="Estratégia Sintática (padrão: yacc). Executa também a Análise Léxica.")
     cli.add_argument("--sema", "--semantic", choices=["sema"], default=None, help="Estratégia Semântica (padrão: sema). Executa também as Análises Léxica e Sintática.")
-    cli.add_argument("--gencode", "--codegen", choices=["llvm"], default=None, help="Estratégia de Geração de Código (padrão: llvm). Executa também as etapas anteriores.")
+    cli.add_argument("--codegen", "--gencode", choices=["llvm"], default=None, help="Estratégia de Geração de Código (padrão: llvm). Executa também as etapas anteriores.")
     cli.add_argument("-k", action="store_true", default=False, help="Imprimir chaves de Erro.")
     cli.add_argument("-t", "--tree", action="store_true", default=False, help="Gerar Árvore Sintática.")
     
@@ -138,9 +141,19 @@ def main():
     if final == "sema":
         return
 
-    # TODO: Geração de Código (args.gencode) sobre a árvore reduzida.
-    log.info("[gencode]: Code Generation not implemented yet.")
-    print("Geração de Código ainda não implementada.", file=sys.stderr)
+    # A Geração de Código só é feita sobre uma árvore sem erros semânticos.
+    if reduced_syntax_tree is None or getattr(sema, "erros", 0):
+        log.info("[codegen]: Semantic errors found, Code Generation not executed.")
+        return
+
+    log.info("[codegen]: Executing Code Generation (codegen: %s).", args.codegen)
+    codegen = get_codegen(args.codegen, check_key=check_key)
+    codegen.generate(
+        reduced_syntax_tree,
+        filename=args.fonte,
+        symbol_table=getattr(sema, "tabela", None),
+        check_key=check_key,
+    )
 
     
     
